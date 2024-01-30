@@ -18,7 +18,7 @@ const Sidebar = () => {
   const menus = [
     { name: 'Halaman Utama', link: '/', icon: FaHome },
     { name: 'Pengaturan Jadwal', link: '/jadwal', icon: FaRegCalendarAlt },
-    { name: 'Pengaturan Jam', link: '/waktu', icon: IoMdTime },
+    { name: 'Pengaturan Waktu', link: '/waktu', icon: IoMdTime },
     { name: 'Pengaturan Mapel', link: '/mapel', icon: FaBook },
     { name: 'Pengaturan Akademik', link: '/akademik', icon: HiAcademicCap },
     { name: 'Pengaturan Gambar', link: '/gambar', icon: IoImageSharp },

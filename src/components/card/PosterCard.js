@@ -37,12 +37,6 @@ const PosterCard = ({ id, onEdit }) => {
           <button className="text-white hover:text-merah transition duration-200 p-5 rounded" onClick={handleEditClick} title="Click Me">
             <MdEdit />
           </button>
-          <button
-            className={`rounded-full p-5 font-com text-xs capitalize ${isButtonOn ? 'bg-white text-black hover:text-white hover:bg-merah' : 'bg-white text-black hover:text-white hover:bg-merah transition duration-200'}`}
-            onClick={handleButtonClick} title='Tombol Switch'
-          >
-            {isButtonOn ? 'Off' : 'On'}
-          </button>
           <button className="text-white hover:text-merah transition duration-200 p-5 rounded" title='Click Me'>
             <FaTrash />
           </button>

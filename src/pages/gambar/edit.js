@@ -5,13 +5,14 @@ import { TfiExport } from "react-icons/tfi"
 import CancelButton from '@/components/button/Cancel'
 import UploadButton from '@/components/button/Upload'
 import Image from 'next/image'
+import ToggleGambar from '@/components/switcher/ToggleGambar'
 
 const EditGambar = () => {
     const fileInputRef = useRef(null)
     const [selectedFile, setSelectedFile] = useState(null)
 
     const handleFileInputClick = () => {
-        fileInputRef.current.click() 
+        fileInputRef.current.click()
     }
 
     const handleFileInputChange = (e) => {
@@ -22,12 +23,11 @@ const EditGambar = () => {
     return (
         <Layout>
             <Head>
-                <title>Edit Gambar</title>
+                <title>Tambah Gambar</title>
             </Head>
-            <div className='mb-96'>
-                <h1 className='text-2xl font-bold text-center mb-44'>EDIT GAMBAR</h1>
+            <div className='mb-96 max-w-screen-lg w-screen'>
             </div>
-            <form className='absolute w-screen flex items-center justify-center h-screen mt-6'>
+            <form className='absolute w-screen flex items-center justify-center h-screen'>
                 <div className="flex flex-col w-full max-w-3xl p-8 rounded-md">
                     <p className='text-abuTua text-xs mb-2 mt-8 text-end'>Max: 50 MB. Format PNG, JPG, JPEG</p>
                     <div className="mb-4 max-w-4xl w-full p-5 bg-input rounded-lg h-52">
@@ -35,11 +35,14 @@ const EditGambar = () => {
                             <Image
                                 src={URL.createObjectURL(selectedFile)}
                                 alt="Preview"
+                                width={100}
+                                height={100}
+                                or
                                 className="w-full h-full object-contain border-gray-300 rounded-md"
                             />
                         )}
                     </div>
-                    <label htmlFor="file_input" className="w-full h-14 mt-6 border-[1px] bg-input border-gray-500 border-dashed border-silver rounded-md text-center cursor-pointer">
+                    <label htmlFor="file_input" className="w-full h-12 border-[1px] mt-2 bg-input border-gray-500 border-dashed border-silver rounded-md text-center cursor-pointer">
                         <input
                             type="file"
                             id="file_input"
@@ -50,13 +53,16 @@ const EditGambar = () => {
                             onClick={handleFileInputClick}
                         />
                         <div className="flex items-center justify-center mt-4">
-                            <TfiExport className="w-5 h-5 mr-2 cursor-pointer" />
-                            <p className='text-sm cursor-pointer'>Upload Gambar</p>
+                            <TfiExport className="w-4 h-4 mr-2 cursor-pointer" />
+                            <p className='text-xs cursor-pointer'>Upload Gambar</p>
                         </div>
                     </label>
-                    <div className='w-full flex flex-col items-start mt-6'>
+                    <div className='w-full flex flex-col items-start mt-4'>
                         <label className='text-left' htmlFor='nama_gambar'>Nama Gambar</label>
-                        <input id='nama_gambar' name='nama_gambar' className='mt-2 bg-input p-[17px] shadow-inner border  w-full h-10 rounded-md' type='text' placeholder='Nama Gambar' />
+                        <input id='nama_gambar' name='nama_gambar' className='mt-2 bg-input p-[17px] shadow-inner border w-full h-10 rounded-md' type='text' placeholder='Nama Gambar' />
+                    </div>
+                    <div className='mt-2'>
+                        <ToggleGambar name='' value='' />
                     </div>
                     <div className='mt-8 items-start flex gap-2 justify-start mr-auto'>
                         <UploadButton />

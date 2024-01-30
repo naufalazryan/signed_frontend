@@ -5,6 +5,7 @@ import CancelButton from '@/components/button/Cancel'
 import UploadButton from '@/components/button/Upload'
 import { FaLink } from 'react-icons/fa'
 import ReactPlayer from 'react-player/youtube'
+import ToggleVideo from '@/components/switcher/ToggleVideo'
 
 const TambahVideo = () => {
   const [videoUrl, setVideoUrl] = useState('')
@@ -20,7 +21,7 @@ const TambahVideo = () => {
       </Head>
       <div className='max-w-screen-lg w-screen flex items-center justify-center'>
         <form className="w-full flex flex-col items-center max-w-3xl p-8 rounded-md">
-          <div className="mb-4 w-full max-w-3xl h-80 bg-sidebar overflow-hidden rounded-lg">
+          <div className="mb-4 w-full max-w-3xl h-64 bg-sidebar overflow-hidden rounded-lg">
             {videoUrl && (
               <div style={{ height: '100%' }}>
                 <ReactPlayer url={videoUrl} width="100%" height="100%" controls />
@@ -43,17 +44,21 @@ const TambahVideo = () => {
           </label>
 
           <div className="w-full flex flex-col items-start mt-6">
-            <label htmlFor='nama_video' className="text-left">Nama Video</label>
+            <label htmlFor='nama_video' className="text-left text-md">Nama Video</label>
             <input
-              className="mt-2 bg-sidebar p-[15px] shadow-inner-3 w-full h-14 rounded-lg"
+              className="mt-2 bg-sidebar p-[15px] shadow-inner-3 w-full h-12 rounded-lg mb-1"
               type="text"
               name='nama_video'
               id='nama_video'
               placeholder="Nama Video"
             />
+
+            <div className='mt-2'>
+              <ToggleVideo name='' value='' />
+            </div>
           </div>
 
-          <div className="mt-8 items-start flex gap-2 justify-start mr-auto">
+          <div className="mt-5 items-start flex gap-2 justify-start mr-auto">
             <UploadButton />
             <CancelButton />
           </div>

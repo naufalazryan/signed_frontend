@@ -2,10 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+.sb-hidden::-webkit-scrollbar {
+display: none;
+}
 
-@layer base {
+.table-body {
+  max-height: 400px; 
+  overflow-y: auto;
+  transition: scroll-behavior 0.5s ease;
+}
 
-body {
-  @apply bg-white
- }
+.table-body::-webkit-scrollbar {
+  width: 12px;
+}
+
+.table-body::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 8px;
+}
+
+.table-body::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.overflow-custom {
+  overflow-clip-margin: 20px;
 }
