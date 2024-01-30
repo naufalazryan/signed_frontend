@@ -43,7 +43,7 @@ const Video = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 1500,
@@ -70,7 +70,7 @@ const Video = () => {
         </div>
         <Slider {...settings}>
           {dataVideo.map((video) => (
-            <div key={video.id} className='mb-28'>
+            <div key={video.id} className='mb-28 ml-10'>
               <VideoCard id={video.id} videoUrl={video.videoUrl} name={video.name} onEdit={() => handleEdit(video.id)} />
             </div>
           ))}
