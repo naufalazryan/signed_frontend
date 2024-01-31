@@ -82,7 +82,6 @@ const Signed = () => {
       };
     }, []);
 
-    Signed.displayName = 'Signed';
 
     return (
       <div className="mx-5 my-4 justify-start overflow-auto">
@@ -268,5 +267,7 @@ const Signed = () => {
     </div>
   );
 };
+
+Signed.displayName = 'Signed';
 
 export default withAuth(Signed);
