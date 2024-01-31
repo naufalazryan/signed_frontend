@@ -41,9 +41,7 @@ const NavDropdown = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if localStorage is available on the client side
     if (typeof window !== "undefined") {
-      // Access localStorage here if needed
     }
   }, []);
 

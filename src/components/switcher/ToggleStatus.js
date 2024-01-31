@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-const ToggleStatus = () => {
-  const [isChecked, setIsChecked] = useState(false)
+const ToggleStatus = ({ defaultValue = 0, onChange }) => {
+  const [isChecked, setIsChecked] = useState(defaultValue === 1);
 
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked)
-  }
+    const newValue = !isChecked;
+    setIsChecked(newValue);
+
+    // Mengirimkan nilai 1 jika tombol diaktifkan (on), dan 0 jika tombol dinonaktifkan (off)
+    const valueToSend = newValue ? 1 : 0;
+    onChange && onChange(valueToSend);
+  };
 
   return (
     <>
       <label htmlFor='checkbox' className='cursor-pointer select-none items-center gap-3 text-sm font-medium text-gray-700'>
-      Status
+        Status
         <div className='relative mt-2'>
           <input
             type='checkbox'
@@ -32,7 +37,7 @@ const ToggleStatus = () => {
         </div>
       </label>
     </>
-  )
-}
+  );
+};
 
-export default ToggleStatus
+export default ToggleStatus;

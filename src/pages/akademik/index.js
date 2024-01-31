@@ -12,8 +12,15 @@ const PAGE_SIZE = 7
 const Akademik = () => {
   const router = useRouter()
   const [currentPage, setCurrentPage] = useState(1)
+  const [toggleStates, setToggleStates] = useState({})
 
-  // Data harus dideklarasikan sebelum digunakan
+  const handleToggle = (itemId, isChecked) => {
+    setToggleStates((prevState) => ({
+      ...prevState,
+      [itemId]: isChecked,
+    }));
+  };
+
   const data = [
     { id: 1, namaKegiatan: 'SNBT', hariMulai: 'Senin, 10 April', hariSelesai: 'Rabu, 12 April' },
     { id: 2, namaKegiatan: 'SNBT', hariMulai: 'Senin, 10 April', hariSelesai: 'Rabu, 12 April' },
@@ -39,11 +46,11 @@ const Akademik = () => {
     router.push('/dashboard/delete')
   }
 
-//   const handleEditClick = (itemId) => {
-//     router.push(`/akademik/edit/${itemId}`)
-//   }
+  //   const handleEditClick = (itemId) => {
+  //     router.push(`/akademik/edit/${itemId}`)
+  //   }
 
-const handleEditClick = (itemId) => {
+  const handleEditClick = (itemId) => {
     router.push(`/akademik/edit`)
   }
 
@@ -95,7 +102,10 @@ const handleEditClick = (itemId) => {
                     <td className="py-4 px-6">{item.hariMulai}</td>
                     <td className="py-4 px-6">{item.hariSelesai}</td>
                     <td className='py-4'>
-                      <ToggleTable name='' value='' />
+                      <ToggleTable
+                        initialValue={toggleStates[item.id] || false}
+                        onToggle={(isChecked) => handleToggle(item.id, isChecked)}
+                      />
                     </td>
                     <td className="py-4 px-6 hover:text-merah transition duration-200">
                       <MdDelete />
