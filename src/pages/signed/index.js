@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react"
-import Image from "next/image"
-import Logo from "@/../../public/images/logo.png"
-import { FaVolumeUp } from "react-icons/fa"
-import axios from "axios"
-import { useRouter } from "next/router"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import Logo from "@/../../public/images/logo.png";
+import { FaVolumeUp } from "react-icons/fa";
+import axios from "axios";
+import { useRouter } from "next/router";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
@@ -26,165 +26,35 @@ const withAuth = (WrappedComponent) => {
   };
 };
 
-
-
 const Signed = () => {
-
   const Table = () => {
     const data = [
       {
         kelas: "X",
-        jam: "1",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "X",
-        jam: "2",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "X",
-        jam: "3",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "X",
-        jam: "4",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "X",
-        jam: "5",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
+        jadwal: [
+          { jam: "1", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "2", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "3", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "4", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+        ],
       },
       {
         kelas: "XI",
-        jam: "1",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "XI",
-        jam: "2",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "XI",
-        jam: "3",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "XI",
-        jam: "4",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "XI",
-        jam: "5",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
+        jadwal: [
+          { jam: "1", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "2", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "3", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "4", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+        ],
       },
       {
         kelas: "XII",
-        jam: "1",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "XII",
-        jam: "2",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "XII",
-        jam: "3",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
-      {
-        kelas: "XII",
-        jam: "4",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
+        jadwal: [
+          { jam: "1", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "2", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "3", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+          { jam: "4", a: "Data", b: "Data", c: "Data", d: "Data", e: "Data", f: "Data", g: "Data" },
+        ],
       },
     ];
 
@@ -210,9 +80,7 @@ const Signed = () => {
           tableRef.current.removeEventListener('scroll', handleScroll);
         }
       };
-    }, [data]);
-
-
+    }, []);
 
     return (
       <div className="mx-5 my-4 justify-start overflow-auto">
@@ -232,18 +100,22 @@ const Signed = () => {
               </tr>
             </thead>
             <tbody className='table-body'>
-              {data.map((row, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-9 border">{row.kelas}</td>
-                  <td className="py-2 px-9 border">{row.jam}</td>
-                  <td className="py-2 px-9 border">{row.a}</td>
-                  <td className="py-2 px-9 border">{row.b}</td>
-                  <td className="py-2 px-9 border">{row.c}</td>
-                  <td className="py-2 px-9 border">{row.d}</td>
-                  <td className="py-2 px-9 border">{row.e}</td>
-                  <td className="py-2 px-9 border">{row.f}</td>
-                  <td className="py-2 px-9 border">{row.g}</td>
-                </tr>
+              {data.map((kelasData, kelasIndex) => (
+                kelasData.jadwal.map((row, jamIndex) => (
+                  <tr key={`${kelasIndex}-${jamIndex}`}>
+                    {jamIndex === 0 && (
+                      <td rowSpan={kelasData.jadwal.length} className="py-2 px-9 border">{kelasData.kelas}</td>
+                    )}
+                    <td className="py-2 px-9 border">{row.jam}</td>
+                    <td className="py-2 px-9 border">{row.a}</td>
+                    <td className="py-2 px-9 border">{row.b}</td>
+                    <td className="py-2 px-9 border">{row.c}</td>
+                    <td className="py-2 px-9 border">{row.d}</td>
+                    <td className="py-2 px-9 border">{row.e}</td>
+                    <td className="py-2 px-9 border">{row.f}</td>
+                    <td className="py-2 px-9 border">{row.g}</td>
+                  </tr>
+                ))
               ))}
             </tbody>
           </table>
@@ -305,39 +177,39 @@ const Signed = () => {
     const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-    useEffect(() => {
-      const fetchData = async () => {
-        setIsLoading(true);
-        try {
-          if (token) {
-            const response = await axios.get(
-              "https://api.e1.ikma.my.id/api/admin/info/get/on",
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-
-            if (response.data && response.data.data) {
-              const { data } = response.data;
-              setData(data);
-            } else {
-              console.error("Invalid data format in the response:", response);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        if (token) {
+          const response = await axios.get(
+            "https://api.e1.ikma.my.id/api/admin/info/get/on",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
             }
-          } else {
-            console.warn(
-              "Token is not available. User may not be authenticated."
-            );
-          }
-        } catch (error) {
-          console.error("Error fetching data:", error.message || error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+          );
 
+          if (response.data && response.data.data) {
+            const { data } = response.data;
+            setData(data);
+          } else {
+            console.error("Invalid data format in the response:", response);
+          }
+        } else {
+          console.warn(
+            "Token is not available. User may not be authenticated."
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error.message || error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    useEffect(() => {
       fetchData();
 
       const intervalId = setInterval(() => {
@@ -351,6 +223,29 @@ const Signed = () => {
       };
     }, [token, data.length]);
 
+    const useInterval = (callback, delay) => {
+      const savedCallback = useRef();
+
+      useEffect(() => {
+        savedCallback.current = callback;
+      }, [callback]);
+
+      useEffect(() => {
+        const tick = () => {
+          savedCallback.current();
+        };
+
+        if (delay !== null) {
+          const id = setInterval(tick, delay);
+          return () => clearInterval(id);
+        }
+      }, [delay]);
+    };
+
+    useInterval(() => {
+      fetchData();
+    }, 3 * 60 * 1000);
+
     return (
       <div className="bg-merah text-white text-center p-2 fixed bottom-0 left-0 w-full flex items-center justify-center">
         <FaVolumeUp className="mr-5" />
@@ -363,16 +258,13 @@ const Signed = () => {
     );
   };
 
-
-
   return (
     <div className='w-screen h-screen overflow-x-hidden overflow-y-hidden'>
       <Navbar />
       <Table />
       <Announce />
     </div>
-  )
-}
-
+  );
+};
 
 export default withAuth(Signed);

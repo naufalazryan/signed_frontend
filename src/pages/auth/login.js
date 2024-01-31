@@ -5,6 +5,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import Logo from "@/../../public/images/logo.png";
+import InputSandi from "@/components/input/InputSandi";
+import ButtonLogin from "@/components/button/ButtonLogin";
+import InputNama from "@/components/input/InputNama";
 import Head from "next/head";
 import { Button } from "@nextui-org/react";
 import { FaUser } from "react-icons/fa";
@@ -57,6 +60,7 @@ function Login() {
           transition: "bounce",
         });
 
+        // Redirect only on successful login
         setTimeout(() => {
           router.push("/");
         }, 2000);
@@ -88,12 +92,12 @@ function Login() {
         transition: "bounce",
       });
     } finally {
-      setLoading(false);
+      // Use a setTimeout to simulate a 5-second delay for the loading indicator
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
-
-  useEffect(() => {
-  }, []);
 
   return (
     <div>
@@ -148,8 +152,9 @@ function Login() {
                   <Button
                     className="border-none bg-merah text-white rounded-md w-full h-12 shadow-xs hover:bg-red-800 transition duration-200"
                     type="submit"
+                    disabled={loading}
                   >
-                    Masuk
+                    {loading ? "Loading..." : "Masuk"}
                   </Button>
                 </div>
               </div>
