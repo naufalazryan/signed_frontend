@@ -23,7 +23,7 @@ const Informasi = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () => { 
       setIsLoading(true);
       try {
         if (token) {
@@ -117,7 +117,7 @@ const Informasi = () => {
 
         setData(updatedData);
 
-        toast.success("Status Berhasil TerUpdate", {
+        toast.success("Status Update", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -135,8 +135,6 @@ const Informasi = () => {
       console.error("Error updating resource:", error);
 
       if (error.response) {
-        // The request was made, but the server responded with a status code
-        // that falls out of the range of 2xx
         console.error("Server response data:", error.response.data);
         console.error("Server response status:", error.response.status);
         console.error("Server response headers:", error.response.headers);
@@ -146,10 +144,8 @@ const Informasi = () => {
           console.error("Validation errors:", error.response.data.errors);
         }
       } else if (error.request) {
-        // The request was made, but no response was received
         console.error("No response received from the server");
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("Error setting up the request:", error.message);
       }
 
@@ -165,7 +161,6 @@ const Informasi = () => {
     setCurrentPage(newPage);
   };
 
-  // Guard against empty data
   const totalPages = Math.ceil(data.length / PAGE_SIZE);
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const endIndex = startIndex + PAGE_SIZE;
@@ -221,7 +216,7 @@ const Informasi = () => {
                       <td className="py-4">
                         <ToggleTable
                           id={item.id}
-                          initialValue={item.status === 1}
+                          initialValue={item.status == 1}
                           onToggle={(newStatus) =>
                             handleToggleChange(item.id, newStatus)
                           }

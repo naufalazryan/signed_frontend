@@ -1,10 +1,32 @@
-import React, { useState, useEffect, useRef, useCallback } from "react"
-import Script from "next/script"
+import React, { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Logo from "@/../../public/images/logo.png"
-import { Poppins } from "next/font/google"
 import { FaVolumeUp } from "react-icons/fa"
+import axios from "axios"
+import { useRouter } from "next/router"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
+
+const withAuth = (WrappedComponent) => {
+  return (props) => {
+    const router = useRouter();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+    useEffect(() => {
+      if (token) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        router.push('/auth/login');
+      }
+    }, [router, token]);
+
+    return isAuthenticated ? <WrappedComponent {...props} /> : null;
+  };
+};
+
+
 
 const Signed = () => {
 
@@ -164,17 +186,6 @@ const Signed = () => {
         f: "Data",
         g: "Data",
       },
-      {
-        kelas: "XII",
-        jam: "5",
-        a: "Data",
-        b: "Data",
-        c: "Data",
-        d: "Data",
-        e: "Data",
-        f: "Data",
-        g: "Data",
-      },
     ];
 
     const tableRef = useRef(null);
@@ -189,12 +200,11 @@ const Signed = () => {
           }
         }
       };
-  
+
       if (tableRef.current) {
         tableRef.current.addEventListener('scroll', handleScroll);
       }
-  
-      // Cleanup the event listener when the component is unmounted
+
       return () => {
         if (tableRef.current) {
           tableRef.current.removeEventListener('scroll', handleScroll);
@@ -206,7 +216,7 @@ const Signed = () => {
 
     return (
       <div className="mx-5 my-4 justify-start overflow-auto">
-        <div className="max-h-screen rounded-tl-xl rounded-bl-xl overflow-y-auto sb-hidden"  ref={tableRef}>
+        <div className="max-h-screen rounded-tl-xl rounded-bl-xl overflow-y-auto sb-hidden" ref={tableRef}>
           <table className="border-collapse table-auto text-center">
             <thead className='relative'>
               <tr className="bg-merah text-white">
@@ -256,6 +266,7 @@ const Signed = () => {
       const timeOptions = {
         hour: "numeric",
         minute: "numeric",
+        second: "numeric"
       };
 
       const dateString = date.toLocaleString("id-ID", dateOptions);
@@ -289,10 +300,65 @@ const Signed = () => {
   };
 
   const Announce = () => {
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+    useEffect(() => {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          if (token) {
+            const response = await axios.get(
+              "https://api.e1.ikma.my.id/api/admin/info/get/on",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (response.data && response.data.data) {
+              const { data } = response.data;
+              setData(data);
+            } else {
+              console.error("Invalid data format in the response:", response);
+            }
+          } else {
+            console.warn(
+              "Token is not available. User may not be authenticated."
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error.message || error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchData();
+
+      const intervalId = setInterval(() => {
+        setCurrentAnnouncementIndex(
+          (prevIndex) => (prevIndex + 1) % data.length
+        );
+      }, 3 * 60 * 1000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }, [token, data.length]);
+
     return (
-      <div className="bg-merah text-white text-center p-2  fixed bottom-0 left-0 w-full flex items-center justify-center">
+      <div className="bg-merah text-white text-center p-2 fixed bottom-0 left-0 w-full flex items-center justify-center">
         <FaVolumeUp className="mr-5" />
-        <p className='text-md font-bold'>Pengumuman</p>
+        {data.length > 0 && (
+          <p className="text-md font-bold">
+            {data[currentAnnouncementIndex].pengumuman}
+          </p>
+        )}
       </div>
     );
   };
@@ -308,4 +374,5 @@ const Signed = () => {
   )
 }
 
-export default Signed
+
+export default withAuth(Signed);
