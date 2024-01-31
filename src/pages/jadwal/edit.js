@@ -5,11 +5,12 @@ import CancelButton from '@/components/button/Cancel'
 import MapelDropdown from '@/components/dropdown/MapelDropdown'
 import HariDropdown from '@/components/dropdown/HariDropdown'
 import SaveButton from '@/components/button/Save'
-import InputKelas from '@/components/input/InputKelas'
-import InputJamMapel from '@/components/input/InputJamMapel'
-import ToggleStatus from '@/components/switcher/ToggleStatus'
+import KelasDropdown from '@/components/dropdown/KelasDropdown'
+import AngkatanDropdown from '@/components/dropdown/AngkatanDropdown'
+import JamDropdown from '@/components/dropdown/JamDropdown'
 
 const EditJadwal = () => {
+  const [selectedAngkatan, setSelectedAngkatan] = React.useState('')
 
   return (
     <Layout>
@@ -17,47 +18,133 @@ const EditJadwal = () => {
         <title>Edit Jadwal</title>
       </Head>
       <div className='max-w-screen-lg w-screen h-full'>
-        <h1 className='text-2xl font-bold text-center mb-5'>EDIT JADWAL</h1>
-        <div className='mt-8'>
-          <form className='max-w-md mx-auto items-center'>
-            <div className='grid items-center gap-x-5'>
-              <div className='mb-4'>
-                <div className='mb-4'>
-                  <label htmlFor='hari' className='block text-sm font-medium text-gray-700 mb-2'>
-                    Hari
-                  </label>
-                  <HariDropdown />
-                </div>
-
-                <label htmlFor='mapel' className='block text-sm font-medium text-gray-700 mb-2'>
-                  Mata Pelajaran
-                </label>
-                <MapelDropdown />
-              </div>
-
+        <form className='mx-32 items-center'>
+          <div className='mb-10 flex justify-start items-center'>
+            <div className='flex justify-start gap-5 '>
               <div>
-                <div className='mb-4'>
-                  <InputJamMapel />
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  Angkatan
+                </label>
+                <AngkatanDropdown name='' value='' />
+              </div>
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  Jam
+                </label>
+                <JamDropdown name='' value='' />
+              </div>
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  Hari
+                </label>
+                <HariDropdown name='' value='' />
+              </div>
+            </div>
+          </div>
+
+          <div className='flex justify-start items-center'>
+            <div className=' items-center'>
+              <div className='flex justify-start gap-20  mb-4 '>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Kelas A
+                  </label>
+                  <KelasDropdown name='' value='' />
                 </div>
-
-                <div className='mb-4'>
-                  <InputKelas />
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Mata Pelajaran
+                  </label>
+                  <MapelDropdown name='' value='' />
                 </div>
-
-
-                <div className='mb-8'>
-                  <ToggleStatus />
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Kelas E
+                  </label>
+                  <KelasDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Mata Pelajaran
+                  </label>
+                  <MapelDropdown name='' value='' />
+                </div>
+              </div>
+              <div className='flex justify-start gap-20  mb-4 '>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Kelas B
+                  </label>
+                  <KelasDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Mata Pelajaran
+                  </label>
+                  <MapelDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Kelas F
+                  </label>
+                  <KelasDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Mata Pelajaran
+                  </label>
+                  <MapelDropdown name='' value='' />
+                </div>
+              </div>
+              <div className='flex justify-start gap-20  mb-4'>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Kelas C
+                  </label>
+                  <KelasDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Mata Pelajaran
+                  </label>
+                  <MapelDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Kelas G
+                  </label>
+                  <KelasDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Mata Pelajaran
+                  </label>
+                  <MapelDropdown name='' value='' />
+                </div>
+              </div>
+              <div className='flex justify-start gap-20  mb-4'>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Kelas D
+                  </label>
+                  <KelasDropdown name='' value='' />
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-2'>
+                    Mata Pelajaran
+                  </label>
+                  <MapelDropdown name='' value='' />
                 </div>
               </div>
             </div>
+          </div>
 
+          <div className='flex justify-center gap-3 mt-10'>
+            <SaveButton />
+            <CancelButton />
+          </div>
+        </form>
 
-            <div className='flex justify-start gap-3'>
-              <SaveButton />
-              <CancelButton />
-            </div>
-          </form>
-        </div>
       </div>
     </Layout>
   )
