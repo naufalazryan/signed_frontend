@@ -82,6 +82,8 @@ const Signed = () => {
       };
     }, []);
 
+    Signed.displayName = 'Signed';
+
     return (
       <div className="mx-5 my-4 justify-start overflow-auto">
         <div className="max-h-screen rounded-tl-xl rounded-bl-xl overflow-y-auto sb-hidden" ref={tableRef}>
@@ -221,7 +223,7 @@ const Signed = () => {
       return () => {
         clearInterval(intervalId);
       };
-    }, [token, data.length]);
+    }, [token, data.length, fetchData]);
 
     const useInterval = (callback, delay) => {
       const savedCallback = useRef();
