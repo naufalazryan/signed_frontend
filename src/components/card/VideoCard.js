@@ -15,7 +15,7 @@ const VideoCard = ({ id, videoUrl, name, onEdit }) => {
     }
 
     return (
-        <div className={`group relative cursor-pointer items-center w-60 justify-center  overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/ rounded-lg ${isButtonOn ? '' : ''}`}>
+        <div className={`group relative cursor-pointer items-center w-60 justify-center av overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/ rounded-lg ${isButtonOn ? '' : ''}`}>
             <div className="h-full w-60">
                 <ReactPlayer
                     url={videoUrl}
