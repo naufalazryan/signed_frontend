@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 
-const ToggleTable = () => {
-  const [isChecked, setIsChecked] = useState(false)
+const ToggleTable = ({ id, initialValue, onToggle }) => {
+  const [isChecked, setIsChecked] = useState(initialValue);
 
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked)
-  }
+    const newStatus = !isChecked;
+    setIsChecked(newStatus);
+    onToggle(newStatus);
+  };
+
+  useEffect(() => {
+    setIsChecked(initialValue);
+  }, [initialValue]);
 
   return (
     <>
-      <label htmlFor='checkbox'>
+      <label htmlFor={id}>
         <div className='relative cursor-pointer select-none items-center gap-3'>
           <input
             type='checkbox'
             checked={isChecked}
             onChange={handleCheckboxChange}
             className='sr-only'
-            id='checkbox'
+            id={id}
           />
           <div
             className={`box block h-5 w-8 rounded-full ${
@@ -31,7 +37,7 @@ const ToggleTable = () => {
         </div>
       </label>
     </>
-  )
-}
+  );
+};
 
-export default ToggleTable
+export default ToggleTable;
