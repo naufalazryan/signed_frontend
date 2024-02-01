@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const withAuth = (WrappedComponent) => {
-  return (props) => {
+   return (props) => {
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const token =
@@ -26,7 +26,7 @@ const withAuth = (WrappedComponent) => {
   };
 };
 
-const Signed = () => {
+const Signed = React.memo(() => {
   const Table = () => {
     const data = [
       {
@@ -62,26 +62,30 @@ const Signed = () => {
 
     useEffect(() => {
       const handleScroll = () => {
-        if (tableRef.current) {
-          const { clientHeight, scrollHeight, scrollTop } = tableRef.current;
+        const currentRef = tableRef.current;
+        if (currentRef) {
+          const { clientHeight, scrollHeight, scrollTop } = currentRef;
           const shouldAutoScroll = scrollHeight - scrollTop <= clientHeight + 10;
           if (shouldAutoScroll) {
-            tableRef.current.scrollTop = scrollHeight - clientHeight;
+            currentRef.scrollTop = scrollHeight - clientHeight;
           }
         }
       };
-
-      if (tableRef.current) {
-        tableRef.current.addEventListener('scroll', handleScroll);
+    
+      const cleanupRef = tableRef.current; // Simpan nilai ref dalam variabel lokal
+      if (cleanupRef) {
+        cleanupRef.addEventListener('scroll', handleScroll);
       }
-
+    
       return () => {
-        const currentRef = tableRef.current;
+        const currentRef = cleanupRef; // Gunakan variabel lokal dalam efek cleanup
         if (currentRef) {
           currentRef.removeEventListener('scroll', handleScroll);
         }
       };
-    }, []);
+    }, []);  // Hapus ref dari array dependensi karena ref tidak berubah
+    
+    
 
 
     return (
@@ -179,7 +183,7 @@ const Signed = () => {
     const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-    const fetchData =  async () => {
+    const fetchData = useCallback(async () => {
       setIsLoading(true);
       try {
         if (token) {
@@ -192,7 +196,7 @@ const Signed = () => {
               },
             }
           );
-
+  
           if (response.data && response.data.data) {
             const { data } = response.data;
             setData(data);
@@ -209,7 +213,8 @@ const Signed = () => {
       } finally {
         setIsLoading(false);
       }
-    };
+    }, [token]);
+  
 
     useEffect(() => {
       fetchData();
@@ -267,8 +272,8 @@ const Signed = () => {
       <Announce />
     </div>
   );
-};
+});
 
-Signed.displayName = 'Signed';
+Signed.displayName = 'Signed'
 
 export default withAuth(Signed);
