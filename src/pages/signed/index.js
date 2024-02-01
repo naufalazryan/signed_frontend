@@ -76,8 +76,9 @@ const Signed = () => {
       }
 
       return () => {
-        if (tableRef.current) {
-          tableRef.current.removeEventListener('scroll', handleScroll);
+        const currentRef = tableRef.current;
+        if (currentRef) {
+          currentRef.removeEventListener('scroll', handleScroll);
         }
       };
     }, []);
@@ -178,7 +179,7 @@ const Signed = () => {
     const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-    const fetchData = async () => {
+    const fetchData =  async () => {
       setIsLoading(true);
       try {
         if (token) {
