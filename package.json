@@ -33,7 +33,7 @@
     "typeface-poppins": "^1.1.13"
   },
   "devDependencies": {
-    "autoprefixer": "^10.0.1",
+    "autoprefixer": "^10.4.17",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
