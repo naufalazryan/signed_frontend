@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef , useCallback} from "react";
 import Image from "next/image";
 import Logo from "@/../../public/images/logo.png";
 import { FaVolumeUp } from "react-icons/fa";
