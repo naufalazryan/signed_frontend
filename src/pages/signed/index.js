@@ -95,7 +95,7 @@ const Signed = React.memo(() => {
 
     return (
       <div className="mx-5 justify-start overflow-hidden max-h-screen" style={{ height: isFullScreen ? '100vh' : 'auto' }}>
-      <div className={`h-[520px] relative max-w-[994px] overflow-y-auto border-b sb-hidden`}>
+      <div className={`h-[520px] relative max-w-[994px] overflow-y-auto border sb-hidden`}>
         <table className="max-w-screen-md table-auto">
             <thead className="relative overflow-hidden z-10 ">
               <tr className="bg-merah text-white">
