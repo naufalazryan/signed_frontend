@@ -29,7 +29,6 @@ const withAuth = (WrappedComponent) => {
 }
 
 const Signed = React.memo(() => {
-
   const Table = () => {
     const data = [
       {
@@ -70,36 +69,69 @@ const Signed = React.memo(() => {
           { jam: "3", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
           { jam: "4", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
           { jam: "5", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
+          { jam: "6", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
+          { jam: "7", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
+          { jam: "8", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
+          { jam: "9", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
+          { jam: "10", a: "MTK", b: "MTK", c: "MTK", d: "MTK", e: "MTK", f: "MTK", g: "MTK" },
         ],
       },
     ];
 
 
 
-    const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isAnimatingUp, setIsAnimatingUp] = useState(false);
+  const tableContainerRef = useRef(null);
 
-    useEffect(() => {
-      const handleResize = () => {
-        setIsFullScreen(window.innerHeight === screen.height);
-      };
-  
-      window.addEventListener('resize', handleResize);
-  
-      setIsFullScreen(window.innerHeight === screen.height);
-  
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      const newIsFullScreen = window.innerHeight === screen.height;
+      setIsAnimatingUp(isFullScreen && !newIsFullScreen);
+      setIsFullScreen(newIsFullScreen);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    setIsFullScreen(window.innerHeight === screen.height);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isFullScreen]);
+
+  useEffect(() => {
+    const $container = tableContainerRef.current;
+    let up = false;
+    let lastPosition;
+
+    const interval = setInterval(() => {
+      const position = $container.scrollTop;
+      const height = $container.scrollHeight;
+
+      if (position === lastPosition) up = !up;
+      lastPosition = position;
+
+      if (up) {
+        $container.scrollTop = position - 10;
+      } else {
+        $container.scrollTop = position + 10;
+      }
+    }, 550);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   
 
     return (
       <div className="mx-5 justify-start overflow-hidden max-h-screen" style={{ height: isFullScreen ? '100vh' : 'auto' }}>
-      <div className={`h-[520px] relative max-w-[994px] overflow-y-auto border sb-hidden`}>
+      <div className={`h-[520px] border-b border-r max-w-[989px] relative overflow-y-auto sb-hidden`} ref={tableContainerRef} style={{ scrollBehavior: 'smooth' }}>
         <table className="max-w-screen-md table-auto">
-            <thead className="relative overflow-hidden z-10 ">
-              <tr className="bg-merah text-white">
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center ">Kelas</th>
+          <thead className="relative overflow-hidden z-10 ">
+            <tr className="bg-merah text-white">
+                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">Kelas</th>
                 <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">Jam</th>
                 <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">A</th>
                 <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">B</th>
@@ -110,63 +142,63 @@ const Signed = React.memo(() => {
                 <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">G</th>
               </tr>
             </thead>
-            <tbody className='marquee-animation'>
-              {data.map((kelasData, kelasIndex) => (
-                kelasData.jadwal.map((row, jamIndex) => (
-                  <tr key={`${kelasIndex}-${jamIndex}`}>
-                    {jamIndex === 0 && (
+            <tbody>
+            {data.map((kelasData, kelasIndex) => (
+              kelasData.jadwal.map((row, jamIndex) => (
+                <tr className="border" key={`${kelasIndex}-${jamIndex}`}>
+                      {jamIndex === 0 && (
+                        <td
+                          rowSpan={kelasData.jadwal.length}
+                          className={`py-2 px-8  text-center border z-1 ${kelasData.kelas} ${kelasData.kelas === 'X' ? '' : ''
+                            }`}
+                        >
+                          {kelasData.kelas}
+                        </td>
+                      )}
                       <td
-                        rowSpan={kelasData.jadwal.length}
-                        className={`py-2 px-8  text-center border-x border-b z-1 ${kelasData.kelas} ${kelasData.kelas === 'X' ? '' : ''
+                        className={`py-2 px-8 text-center border  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                           }`}
                       >
-                        {kelasData.kelas}
+                        {row.jam}
                       </td>
-                    )}
                     <td
-                      className={`py-2 px-8 text-center border-r  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
-                        }`}
-                    >
-                      {row.jam}
-                    </td>
-                    <td
-                      className={`py-2 px-8 text-center border-r z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.a}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border-r z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.b}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border-r z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.c}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border-r z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.d}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center  border-r z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.e}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center  border-r z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.f}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border-r  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.g}

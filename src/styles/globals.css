@@ -7,55 +7,6 @@ display: none;
 }
 
 
-  @-webkit-keyframes marquee {
-      0% {
-        transform: translateY(100%);
-      }
-      100% {
-        transform: translateY(-100%);
-      }
-    }
-
-
-  @keyframes marquee {
-      0% {
-        transform: translateY(100%);
-      }
-      100% {
-        transform: translateY(-100%);
-      }
-    }
-
-.marquee-animation {
-      -webkit-animation: marquee 10s linear infinite;
-              animation: marquee 10s linear infinite;
-    }
-
-    @-webkit-keyframes announce {
-      0% {
-        transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-
-
-  @keyframes announce {
-      0% {
-        transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-
-    .announce-animation {
-      -webkit-announce: marquee 10s linear infinite;
-              announce: marquee 10s linear infinite;
-    }
-
-
 .fullScreenTable {
   
 }
