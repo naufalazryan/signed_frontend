@@ -125,13 +125,14 @@ const Signed = React.memo(() => {
   
     useEffect(() => {
       const $container = tableContainerRef.current;
-  
+    
       if (isFullScreen) {
-        $container.style.height = '610px';
+        $container.style.height = '630px';
       } else {
         $container.style.height = '540px';
       }
     }, [isFullScreen]);
+    
 
   
 
