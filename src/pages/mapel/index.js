@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Head from "next/head";
-import Layout from "@/components/Layout";
-import { MdEdit, MdDelete } from "react-icons/md";
-import { useRouter } from "next/router";
-import { Pagination } from "@nextui-org/react";
-import { FaPlus } from "react-icons/fa";
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import Head from "next/head"
+import Layout from "@/components/Layout"
+import { MdEdit, MdDelete } from "react-icons/md"
+import { useRouter } from "next/router"
+import { Pagination } from "@nextui-org/react"
+import { FaPlus } from "react-icons/fa"
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const PAGE_SIZE = 7
 
 const Mapel = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("token") : null
 
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      setIsLoading(true)
       try {
         if (token) {
           const response = await axios.get(
@@ -34,39 +34,38 @@ const Mapel = () => {
                 "Content-Type": "application/json",
               },
             }
-          );
+          )
 
           if (response.data && response.data.data) {
-            const { data } = response.data;
-            setData(data);
+            const { data } = response.data
+            setData(data)
           } else {
-            console.error("Invalid data format in the response:", response);
+            console.error("Invalid data format in the response:", response)
           }
         } else {
           console.warn(
             "Token is not available. User may not be authenticated."
-          );
+          )
         }
       } catch (error) {
-        console.error("Error fetching data:", error.message || error);
+        console.error("Error fetching data:", error.message || error)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [token]);
+    fetchData()
+  }, [token])
 
-  // Data harus dideklarasikan sebelum digunakan
 
-  const totalPages = Math.ceil(data.length / PAGE_SIZE);
-  const startIndex = (currentPage - 1) * PAGE_SIZE;
-  const endIndex = startIndex + PAGE_SIZE;
-  const currentData = data.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(data.length / PAGE_SIZE)
+  const startIndex = (currentPage - 1) * PAGE_SIZE
+  const endIndex = startIndex + PAGE_SIZE
+  const currentData = data.slice(startIndex, endIndex)
 
   const handleCreateClick = () => {
-    router.push("/mapel/create");
-  };
+    router.push("/mapel/create")
+  }
 
   const handleDelete = async (id) => {
     try {
@@ -78,9 +77,9 @@ const Mapel = () => {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
 
-      setData((prevData) => prevData.filter((item) => item.id !== id));
+      setData((prevData) => prevData.filter((item) => item.id !== id))
       toast.success("Data Mapel Berhasil Dihapus", {
         position: "top-right",
         autoClose: 5000,
@@ -90,35 +89,20 @@ const Mapel = () => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-      });
+      })
     } catch (error) {
-      console.error("Error deleting resource:", error);
-      toast.error("Error deleting resource");
+      console.error("Error deleting resource:", error)
+      toast.error("Error deleting resource")
     }
-  };
+  }
 
-  const handleEditClick = async (id) => {
-    try {
-      const response = await axios.get(
-        `https://api.e1.ikma.my.id/api/admin/mapel/edit/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Edit data:", response.data);
-
-      router.push(`/mapel/edit/${id}`);
-    } catch (error) {
-      console.error("Error fetching edit data:", error);
-    }
-  };
+  const handleEditClick = (itemId) => {
+    router.push(`/mapel/edit/${itemId}`)
+  }
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+    setCurrentPage(newPage)
+  }
 
   return (
     <Layout>
@@ -159,7 +143,7 @@ const Mapel = () => {
               <tbody className="bg-white border">
                 {currentData.map((item, index) => {
                   const displayNumber =
-                    (currentPage - 1) * PAGE_SIZE + index + 1;
+                    (currentPage - 1) * PAGE_SIZE + index + 1
                   return (
                     <tr
                       key={item.id}
@@ -167,17 +151,18 @@ const Mapel = () => {
                     >
                       <td className="py-4 px-6">{displayNumber}</td>
                       <td className="py-4 px-6">{item.nama}</td>
-                      <td
-                        className="py-4 px-6 hover:text-merah transition duration-200"
-                        onClick={() => handleEditClick(item.id)}
-                      >
-                        <MdEdit onClick={() => handleEditClick(item.id)}/>
+                      <td className="py-4 px-6 hover:text-merah transition duration-200">
+                        <MdEdit
+                          name=""
+                          value=""
+                          onClick={() => handleEditClick(item.id)}
+                        />
                       </td>
                       <td className="py-4 px-6 hover:text-merah transition duration-200">
                         <MdDelete onClick={() => handleDelete(item.id)} />
                       </td>
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </table>
@@ -195,7 +180,7 @@ const Mapel = () => {
       </div>
       <ToastContainer className="mt-12" />
     </Layout>
-  );
-};
+  )
+}
 
 export default Mapel

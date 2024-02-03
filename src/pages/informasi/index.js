@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Head from "next/head";
-import Layout from "@/components/Layout";
-import { MdEdit, MdDelete } from "react-icons/md";
-import { useRouter } from "next/router";
-import { Pagination } from "@nextui-org/react";
-import { FaPlus } from "react-icons/fa";
-import ToggleTable from "@/components/switcher/ToggleTable";
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import Head from "next/head"
+import Layout from "@/components/Layout"
+import { MdEdit, MdDelete } from "react-icons/md"
+import { useRouter } from "next/router"
+import { Pagination } from "@nextui-org/react"
+import { FaPlus } from "react-icons/fa"
+import ToggleTable from "@/components/switcher/ToggleTable"
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
-const PAGE_SIZE = 7;
+const PAGE_SIZE = 7
 
 const Informasi = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("token") : null
 
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
-    const fetchData = async () => { 
-      setIsLoading(true);
+    const fetchData = async () => {
+      setIsLoading(true)
       try {
         if (token) {
           const response = await axios.get(
@@ -35,32 +35,32 @@ const Informasi = () => {
                 "Content-Type": "application/json",
               },
             }
-          );
+          )
 
           if (response.data && response.data.data) {
-            const { data } = response.data;
-            setData(data);
+            const { data } = response.data
+            setData(data)
           } else {
-            console.error("Invalid data format in the response:", response);
+            console.error("Invalid data format in the response:", response)
           }
         } else {
           console.warn(
             "Token is not available. User may not be authenticated."
-          );
+          )
         }
       } catch (error) {
-        console.error("Error fetching data:", error.message || error);
+        console.error("Error fetching data:", error.message || error)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [token]);
+    fetchData()
+  }, [token])
 
   const handleCreateClick = () => {
-    router.push("/informasi/create");
-  };
+    router.push("/informasi/create")
+  }
 
   const handleDelete = async (id) => {
     try {
@@ -72,31 +72,32 @@ const Informasi = () => {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
 
-      setData((prevData) => prevData.filter((item) => item.id !== id));
+      setData((prevData) => prevData.filter((item) => item.id !== id))
       toast.success("Data Informasi Berhasil Dihapus", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "dark",
-      });
+        theme: "light",
+      })
+
     } catch (error) {
-      console.error("Error deleting resource:", error);
-      toast.error("Error deleting resource");
+      console.error("Error deleting resource:", error)
+      toast.error("Error deleting resource")
     }
-  };
+  }
 
   const handleToggleChange = async (id, newStatus) => {
     try {
-      console.log("Updating resource:", id, newStatus);
+      console.log("Updating resource:", id, newStatus)
 
       const response = await axios.put(
-        `https://api.e1.ikma.my.id/api/admin/info/update/${id}`,
+        `https://api.e1.ikma.my.id/api/admin/info/update/status/${id}`,
         { status: newStatus ? 1 : 0 },
         {
           headers: {
@@ -104,20 +105,20 @@ const Informasi = () => {
             "Content-Type": "application/json",
           },
         }
-      );
+      )
 
-      console.log("Response from server:", response);
+      console.log("Response from server:", response)
 
       if (response.data && response.data.message) {
-        console.log("Resource updated successfully");
+        console.log("Resource updated successfully")
 
         const updatedData = data.map((item) =>
           item.id === id ? { ...item, status: newStatus ? 1 : 0 } : item
-        );
+        )
 
-        setData(updatedData);
+        setData(updatedData)
 
-        toast.success("Status Update", {
+        toast.success("Status Informasi Berhasil Berubah", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -125,46 +126,48 @@ const Informasi = () => {
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-          theme: "dark",
-        });
+          theme: "light",
+        })
+
       } else {
-        console.error("Invalid response format from server:", response);
-        toast.error("Error updating resource");
+        console.error("Invalid response format from server:", response)
+        toast.error("Error updating resource")
       }
     } catch (error) {
-      console.error("Error updating resource:", error);
+      console.error("Error updating resource:", error)
 
       if (error.response) {
-        console.error("Server response data:", error.response.data);
-        console.error("Server response status:", error.response.status);
-        console.error("Server response headers:", error.response.headers);
+
+        console.error("Server response data:", error.response.data)
+        console.error("Server response status:", error.response.status)
+        console.error("Server response headers:", error.response.headers)
 
         if (error.response.data && error.response.data.errors) {
-          // Log validation errors
-          console.error("Validation errors:", error.response.data.errors);
+          console.error("Validation errors:", error.response.data.errors)
         }
       } else if (error.request) {
-        console.error("No response received from the server");
+        console.error("No response received from the server")
       } else {
-        console.error("Error setting up the request:", error.message);
+        console.error("Error setting up the request:", error.message)
       }
 
-      toast.error("Error updating resource");
+      toast.error("Error updating resource")
     }
-  };
+  }
 
   const handleEditClick = (itemId) => {
-    router.push(`/akademik/edit`);
-  };
+    router.push(`/akademik/edit`)
+  }
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+    setCurrentPage(newPage)
+  }
 
-  const totalPages = Math.ceil(data.length / PAGE_SIZE);
-  const startIndex = (currentPage - 1) * PAGE_SIZE;
-  const endIndex = startIndex + PAGE_SIZE;
-  const currentData = data.slice(startIndex, endIndex);
+  // Guard against empty data
+  const totalPages = Math.ceil(data.length / PAGE_SIZE)
+  const startIndex = (currentPage - 1) * PAGE_SIZE
+  const endIndex = startIndex + PAGE_SIZE
+  const currentData = data.slice(startIndex, endIndex)
 
   return (
     <Layout>
@@ -205,7 +208,7 @@ const Informasi = () => {
               <tbody className="bg-white border">
                 {currentData.map((item, index) => {
                   const displayNumber =
-                    (currentPage - 1) * PAGE_SIZE + index + 1;
+                    (currentPage - 1) * PAGE_SIZE + index + 1
                   return (
                     <tr
                       key={item.id}
@@ -226,7 +229,7 @@ const Informasi = () => {
                         <MdDelete onClick={() => handleDelete(item.id)} />
                       </td>
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </table>
@@ -244,7 +247,7 @@ const Informasi = () => {
       </div>
       <ToastContainer className="mt-12" />
     </Layout>
-  );
-};
+  )
+}
 
-export default Informasi;
+export default Informasi

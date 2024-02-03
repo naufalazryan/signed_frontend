@@ -16,6 +16,7 @@
     "@vercel/speed-insights": "^1.0.8",
     "axios": "^1.6.7",
     "chroma-js": "^2.4.2",
+    "date-fns": "^3.3.1",
     "framer-motion": "^10.18.0",
     "micromatch": "^4.0.5",
     "next": "^14.1.0",

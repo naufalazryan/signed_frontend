@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
-import Image from "next/image"
-import Logo from "@/../../public/images/logo.png"
 import { FaVolumeUp } from "react-icons/fa"
 import axios from "axios"
+import Image from "next/image"
 import { useRouter } from "next/router"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { motion, useAnimation } from 'framer-motion'
+import {Card, CardHeader, CardBody, CardFooter, Button} from "@nextui-org/react"
+import Logo from '../../../public/images/logo.png'
+import Poster from '../../../public/images/poster.jpeg'
 
 
 const withAuth = (WrappedComponent) => {
@@ -80,55 +81,64 @@ const Signed = React.memo(() => {
 
 
 
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [isAnimatingUp, setIsAnimatingUp] = useState(false);
-  const tableContainerRef = useRef(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const newIsFullScreen = window.innerHeight === screen.height;
-      setIsAnimatingUp(isFullScreen && !newIsFullScreen);
-      setIsFullScreen(newIsFullScreen);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    setIsFullScreen(window.innerHeight === screen.height);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isFullScreen]);
-
-  useEffect(() => {
-    const $container = tableContainerRef.current;
-    let up = false;
-    let lastPosition;
-
-    const interval = setInterval(() => {
-      const position = $container.scrollTop;
-      const height = $container.scrollHeight;
-
-      if (position === lastPosition) up = !up;
-      lastPosition = position;
-
-      if (up) {
-        $container.scrollTop = position - 10;
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [isAnimatingUp, setIsAnimatingUp] = useState(false);
+    const tableContainerRef = useRef(null);
+  
+    useEffect(() => {
+      const handleResize = () => {
+        const newIsFullScreen = window.innerHeight === screen.height;
+        setIsAnimatingUp(isFullScreen && !newIsFullScreen);
+        setIsFullScreen(newIsFullScreen);
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      setIsFullScreen(window.innerHeight === screen.height);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, [isFullScreen]);
+  
+    useEffect(() => {
+      const $container = tableContainerRef.current;
+      let up = false;
+      let lastPosition = 0;
+  
+      const interval = setInterval(() => {
+        const position = $container.scrollTop;
+        const height = $container.scrollHeight;
+  
+        if (position === lastPosition) up = !up;
+        lastPosition = position;
+  
+        if (up) {
+          $container.scrollTop = position - 1;
+        } else {
+          $container.scrollTop = position + 1;
+        }
+      }, 30);
+  
+      return () => clearInterval(interval);
+    }, [isAnimatingUp]);
+  
+    useEffect(() => {
+      const $container = tableContainerRef.current;
+  
+      if (isFullScreen) {
+        $container.style.height = '610px';
       } else {
-        $container.scrollTop = position + 10;
+        $container.style.height = '540px';
       }
-    }, 550);
-
-    return () => clearInterval(interval);
-  }, []);
-
+    }, [isFullScreen]);
 
   
 
     return (
       <div className="mx-5 justify-start overflow-hidden max-h-screen" style={{ height: isFullScreen ? '100vh' : 'auto' }}>
-      <div className={`h-[520px] border-b border-r max-w-[989px] relative overflow-y-auto sb-hidden`} ref={tableContainerRef} style={{ scrollBehavior: 'smooth' }}>
-        <table className="max-w-screen-md table-auto">
+      <div className={`h-${isFullScreen ? '610' : '540'}px relative overflow-y-auto sb-hidden border-b border-gray-300 max-w-[992px]`} ref={tableContainerRef}>
+        <table className="max-w-screen-lg table-auto">
           <thead className="relative overflow-hidden z-10 ">
             <tr className="bg-merah text-white">
                 <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">Kelas</th>
@@ -145,65 +155,66 @@ const Signed = React.memo(() => {
             <tbody>
             {data.map((kelasData, kelasIndex) => (
               kelasData.jadwal.map((row, jamIndex) => (
-                <tr className="border" key={`${kelasIndex}-${jamIndex}`}>
+                <tr className="border-black" key={`${kelasIndex}-${jamIndex}`}>
                       {jamIndex === 0 && (
                         <td
                           rowSpan={kelasData.jadwal.length}
-                          className={`py-2 px-8  text-center border z-1 ${kelasData.kelas} ${kelasData.kelas === 'X' ? '' : ''
+                          className={`py-2 px-8  text-center border-gray-300 border  z-1 bg-gray-100 text-black ${kelasData.kelas} ${kelasData.kelas === 'X' ? '' : ''
                             }`}
                         >
                           {kelasData.kelas}
                         </td>
                       )}
                       <td
-                        className={`py-2 px-8 text-center border  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                        className={`py-2 px-8 text-center border-gray-300 border bg-gray-100  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                           }`}
                       >
                         {row.jam}
                       </td>
                     <td
-                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100 z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.a}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100 z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.b}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100 z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.c}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100 z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.d}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.e}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100 z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.f}
                     </td>
                     <td
-                      className={`py-2 px-8 text-center border  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
                     >
                       {row.g}
                     </td>
                   </tr>
+                  
                 ))
               ))}
             </tbody>
@@ -366,6 +377,27 @@ const Signed = React.memo(() => {
     );
   };
 
+  const BagianKanan = () => {
+
+    const Card = () => {
+      
+      return (
+        <div>
+          <Card className='col-span-12 sm:col-span-4 h-[300px] hid'>
+            <CardHeader className='absolute z-10 top-1 flex-col !items-start'>
+              <p className="text-tiny text-black uppercase font-bold">Test</p>
+              <h4 className="text-black font-medium text-lg">test</h4>
+              <Image width={40} height={40} src={Poster}/>
+            </CardHeader>
+          </Card>
+        </div>
+      );
+    }
+    
+  
+  };
+  
+
   return (
     <div className='w-screen h-screen overflow-x-hidden overflow-y-hidden'>
       <Navbar />
@@ -375,6 +407,5 @@ const Signed = React.memo(() => {
   );
 });
 
-Signed.displayName = 'Signed'
 
 export default withAuth(Signed);

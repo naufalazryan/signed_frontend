@@ -44,12 +44,12 @@ const TambahJadwal = () => {
 
           <div className='flex justify-start items-center'>
             <div className=' items-center'>
-              <div className='flex justify-start gap-20  mb-4 '>
+              <div className='grid grid-cols-4 gap-x-5 mb-4'>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Kelas A
+                    Mata Pelajaran
                   </label>
-                  <KelasDropdown name='' value='' />
+                  <MapelDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -59,35 +59,9 @@ const TambahJadwal = () => {
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Kelas E
-                  </label>
-                  <KelasDropdown name='' value='' />
-                </div>
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
                     Mata Pelajaran
                   </label>
                   <MapelDropdown name='' value='' />
-                </div>
-              </div>
-              <div className='flex justify-start gap-20  mb-4 '>
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Kelas B
-                  </label>
-                  <KelasDropdown name='' value='' />
-                </div>
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
-                  </label>
-                  <MapelDropdown name='' value='' />
-                </div>
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Kelas F
-                  </label>
-                  <KelasDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -96,13 +70,8 @@ const TambahJadwal = () => {
                   <MapelDropdown name='' value='' />
                 </div>
               </div>
-              <div className='flex justify-start gap-20  mb-4'>
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Kelas C
-                  </label>
-                  <KelasDropdown name='' value='' />
-                </div>
+
+              <div className='grid grid-cols-3 gap-x-5 mb-4'>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
                     Mata Pelajaran
@@ -111,23 +80,9 @@ const TambahJadwal = () => {
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Kelas G
-                  </label>
-                  <KelasDropdown name='' value='' />
-                </div>
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
                     Mata Pelajaran
                   </label>
                   <MapelDropdown name='' value='' />
-                </div>
-              </div>
-              <div className='flex justify-start gap-20  mb-4'>
-                <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Kelas D
-                  </label>
-                  <KelasDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -144,7 +99,6 @@ const TambahJadwal = () => {
             <CancelButton />
           </div>
         </form>
-
       </div>
     </Layout>
   )
