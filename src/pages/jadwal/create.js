@@ -17,8 +17,9 @@ const TambahJadwal = () => {
       <Head>
         <title>Tambah Jadwal</title>
       </Head>
-      <div className='max-w-screen-lg w-screen h-full'>
-        <form className='mx-32 items-center'>
+      <div className='max-w-screen-lg w-screen h-full flex flex-col justify-center items-center text-center'>
+        <h1 className="mb-5 text-2xl font-bold">TAMBAH JADWAL</h1>
+        <form className='mt-10'>
           <div className='mb-10 flex justify-start items-center'>
             <div className='flex justify-start gap-5 '>
               <div>
@@ -42,51 +43,54 @@ const TambahJadwal = () => {
             </div>
           </div>
 
-          <div className='flex justify-start items-center'>
+          <div className='flex justify-start items-center mb-6'>
             <div className=' items-center'>
               <div className='grid grid-cols-4 gap-x-5 mb-4'>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
+                    Mata Pelajaran A
                   </label>
                   <MapelDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
+                    Mata Pelajaran B
                   </label>
                   <MapelDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
+                    Mata Pelajaran C
                   </label>
                   <MapelDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
+                    Mata Pelajaran D
                   </label>
                   <MapelDropdown name='' value='' />
                 </div>
               </div>
-
-              <div className='grid grid-cols-3 gap-x-5 mb-4'>
+            </div>
+          </div>
+          <div className='flex justify-start items-center mb-6'>
+            <div className=' items-center'>
+              <div className='grid grid-cols-4 gap-x-5 mb-4'>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
+                    Mata Pelajaran E
                   </label>
                   <MapelDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
+                    Mata Pelajaran F
                   </label>
                   <MapelDropdown name='' value='' />
                 </div>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-2'>
-                    Mata Pelajaran
+                    Mata Pelajaran G
                   </label>
                   <MapelDropdown name='' value='' />
                 </div>
@@ -94,7 +98,7 @@ const TambahJadwal = () => {
             </div>
           </div>
 
-          <div className='flex justify-center gap-3 mt-10'>
+          <div className='flex justify-center gap-3 mt-14'>
             <SaveButton />
             <CancelButton />
           </div>

@@ -4,9 +4,11 @@ import axios from "axios"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-import {Card, CardHeader, CardBody, CardFooter, Button} from "@nextui-org/react"
+import { Card, CardHeader, CardBody, CardFooter, Button } from "@nextui-org/react"
 import Logo from '../../../public/images/logo.png'
 import Poster from '../../../public/images/poster.jpeg'
+import Head from "next/head"
+import chroma from "chroma-js"
 
 
 const withAuth = (WrappedComponent) => {
@@ -84,94 +86,125 @@ const Signed = React.memo(() => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isAnimatingUp, setIsAnimatingUp] = useState(false);
     const tableContainerRef = useRef(null);
-  
+    const [color1, setColor1] = useState('#AC2427');
+    const inputColorRef1 = useRef(null);
+    const [labelColor1, setLabelColor1] = useState(null);
+
+    const determineLabelColor = (backgroundColor) => {
+      const contrastColor =
+        chroma.contrast(backgroundColor, 'black') > chroma.contrast(backgroundColor, 'white')
+          ? 'black'
+          : 'white';
+      return contrastColor;
+    };
+
+    const handleColorChange = (setColor, setColorState, setLabelColor) => (event) => {
+      const color = event.target.value;
+      setColor(color);
+      setColorState(color);
+      setLabelColor(determineLabelColor(color));
+    };
+
+    const createHandleDivClick = (inputColorRef, setColor, setLabelColor, currentColor) => () => {
+      inputColorRef.current.click();
+      setColor(currentColor);
+      setLabelColor(determineLabelColor(currentColor));
+    };
+
     useEffect(() => {
       const handleResize = () => {
         const newIsFullScreen = window.innerHeight === screen.height;
         setIsAnimatingUp(isFullScreen && !newIsFullScreen);
         setIsFullScreen(newIsFullScreen);
       };
-  
+
       window.addEventListener('resize', handleResize);
-  
+
       setIsFullScreen(window.innerHeight === screen.height);
-  
+
       return () => {
         window.removeEventListener('resize', handleResize);
       };
     }, [isFullScreen]);
-  
+
     useEffect(() => {
       const $container = tableContainerRef.current;
       let up = false;
       let lastPosition = 0;
-  
+
       const interval = setInterval(() => {
         const position = $container.scrollTop;
         const height = $container.scrollHeight;
-  
+
         if (position === lastPosition) up = !up;
         lastPosition = position;
-  
+
         if (up) {
           $container.scrollTop = position - 1;
         } else {
           $container.scrollTop = position + 1;
         }
       }, 30);
-  
+
       return () => clearInterval(interval);
     }, [isAnimatingUp]);
-  
+
     useEffect(() => {
       const $container = tableContainerRef.current;
-    
+
       if (isFullScreen) {
         $container.style.height = '630px';
       } else {
         $container.style.height = '540px';
       }
     }, [isFullScreen]);
-    
-
-  
 
     return (
+
       <div className="mx-5 justify-start overflow-hidden max-h-screen">
-      <div className={`relative overflow-y-auto sb-hidden  border-gray-300 `} ref={tableContainerRef}>
-        <table className="table-auto">
-          <thead className="relative overflow-hidden z-10 ">
-            <tr className="bg-merah text-white">
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">Kelas</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">Jam</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">A</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">B</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">C</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">D</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">E</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">F</th>
-                <th className="py-2 px-9 sticky top-0 bg-merah text-white text-center">G</th>
+        <div className={`relative overflow-y-auto sb-hidden  border-gray-300 `} ref={tableContainerRef}>
+          <table className="table-auto">
+            <thead className="relative overflow-hidden z-10">
+              <tr>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>
+                  <input
+                    ref={inputColorRef1}
+                    type="color"
+                    value={color1}
+                    name='bg_1'
+                    id='bg_1'
+                    onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
+                    className='bg-none cursor-pointer absolute w-full h-full opacity-0 mr-auto'
+                  />Kelas</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>Jam</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>A</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>B</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>C</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>D</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>E</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>F</th>
+                <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>G</th>
               </tr>
             </thead>
             <tbody>
-            {data.map((kelasData, kelasIndex) => (
-              kelasData.jadwal.map((row, jamIndex) => (
-                <tr className="border-black" key={`${kelasIndex}-${jamIndex}`}>
-                      {jamIndex === 0 && (
-                        <td
-                          rowSpan={kelasData.jadwal.length}
-                          className={`py-2 px-8  text-center border-gray-300 border  z-1 bg-gray-100 text-black ${kelasData.kelas} ${kelasData.kelas === 'X' ? '' : ''
-                            }`}
-                        >
-                          {kelasData.kelas}
-                        </td>
-                      )}
+              {data.map((kelasData, kelasIndex) => (
+                kelasData.jadwal.map((row, jamIndex) => (
+                  <tr className="border-black" key={`${kelasIndex}-${jamIndex}`}>
+                    {jamIndex === 0 && (
                       <td
-                        className={`py-2 px-8 text-center border-gray-300 border bg-gray-100  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                        rowSpan={kelasData.jadwal.length}
+                        className={`py-2 px-8  text-center border-gray-300 border  z-1 bg-gray-100 text-black ${kelasData.kelas} ${kelasData.kelas === 'X' ? '' : ''
                           }`}
                       >
-                        {row.jam}
+                        {kelasData.kelas}
                       </td>
+                    )}
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-100  z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
+                        }`}
+                    >
+                      {row.jam}
+                    </td>
                     <td
                       className={`py-2 px-8 text-center border-gray-300 border bg-gray-100 z-1 ${kelasData.kelas === 'X' && jamIndex === 0 ? '' : ''
                         }`}
@@ -215,7 +248,7 @@ const Signed = React.memo(() => {
                       {row.g}
                     </td>
                   </tr>
-                  
+
                 ))
               ))}
             </tbody>
@@ -279,6 +312,31 @@ const Signed = React.memo(() => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const [color1, setColor1] = useState('#AC2427');
+    const inputColorRef1 = useRef(null);
+    const [labelColor1, setLabelColor1] = useState(null);
+
+    const determineLabelColor = (backgroundColor) => {
+      const contrastColor =
+        chroma.contrast(backgroundColor, 'black') > chroma.contrast(backgroundColor, 'white')
+          ? 'black'
+          : 'white';
+      return contrastColor;
+    };
+
+    const handleColorChange = (setColor, setColorState, setLabelColor) => (event) => {
+      const color = event.target.value;
+      setColor(color);
+      setColorState(color);
+      setLabelColor(determineLabelColor(color));
+    };
+
+    const createHandleDivClick = (inputColorRef, setColor, setLabelColor, currentColor) => () => {
+      inputColorRef.current.click();
+      setColor(currentColor);
+      setLabelColor(determineLabelColor(currentColor));
+    };
+
 
     const fetchData = useCallback(async () => {
       setIsLoading(true);
@@ -367,8 +425,19 @@ const Signed = React.memo(() => {
     }, []);
 
     return (
-      <div className="bg-merah text-white gap-3 text-center p-2 fixed bottom-0 w-full  flex items-center justify-center" style={{ height: isFullScreen ? '8vh' : 'auto' }}>
+
+      <div className="gap-3 text-center p-2 fixed bottom-0 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '8vh' : 'auto' }}
+        onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>
         <FaVolumeUp />
+        <input
+          ref={inputColorRef1}
+          type="color"
+          value={color1}
+          name='bg_1'
+          id='bg_1'
+          onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
+          className='ml-8 bg-none cursor-pointer absolute w-full h-full opacity-0'
+        />
         {data.length > 0 && (
           <p className="text-md font-bold">
             {data[currentAnnouncementIndex].pengumuman}
@@ -381,29 +450,34 @@ const Signed = React.memo(() => {
   const BagianKanan = () => {
 
     const Card = () => {
-      
+
       return (
         <div>
           <Card className='col-span-12 sm:col-span-4 h-[300px] hid'>
             <CardHeader className='absolute z-10 top-1 flex-col !items-start'>
               <p className="text-tiny text-black uppercase font-bold">Test</p>
               <h4 className="text-black font-medium text-lg">test</h4>
-              <Image width={40} height={40} src={Poster}/>
+              <Image width={40} height={40} src={Poster} />
             </CardHeader>
           </Card>
         </div>
       );
     }
-    
-  
+
+
   };
-  
+
 
   return (
-    <div className='w-screen h-screen overflow-x-hidden overflow-y-hidden'>
-      <Navbar />
-      <Table />
-      <Announce />
+    <div>
+      <Head>
+        <title>Signed SMK Telkom Banjarbaru</title>
+      </Head>
+      <div className='w-screen h-screen overflow-x-hidden overflow-y-hidden'>
+        <Navbar />
+        <Table />
+        <Announce />
+      </div>
     </div>
   );
 });

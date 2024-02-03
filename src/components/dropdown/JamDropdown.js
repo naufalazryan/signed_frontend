@@ -36,7 +36,6 @@ const JamDropdown = () => {
   );
 
   useEffect(() => {
-    // Sesuaikan jumlah item yang terlihat saat ukuran window berubah
     const handleResize = () => {
       const dropdown = dropdownRef.current;
       if (dropdown) {
@@ -47,7 +46,7 @@ const JamDropdown = () => {
       }
     };
 
-    handleResize(); // Penyesuaian awal
+    handleResize();
 
     window.addEventListener("resize", handleResize);
     return () => {
