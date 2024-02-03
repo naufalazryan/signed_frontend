@@ -23,7 +23,7 @@ const Sidebar = () => {
     { name: 'Pengaturan Akademik', link: '/akademik', icon: HiAcademicCap },
     { name: 'Pengaturan Gambar', link: '/gambar', icon: IoImageSharp },
     { name: 'Pengaturan Video', link: '/video', icon: MdOutlineOndemandVideo },
-    { name: 'Pengaturan Warna', link: '/warna', icon: IoMdColorPalette },
+    // { name: 'Pengaturan Warna', link: '/warna', icon: IoMdColorPalette },
     { name: 'Pengaturan Informasi', link: '/informasi', icon: IoInformation },
   ]
   const [open, setOpen] = useState(true)
