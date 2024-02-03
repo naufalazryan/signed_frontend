@@ -86,9 +86,31 @@ const Signed = React.memo(() => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isAnimatingUp, setIsAnimatingUp] = useState(false);
     const tableContainerRef = useRef(null);
-    const [color1, setColor1] = useState('#AC2427');
-    const inputColorRef1 = useRef(null);
+    
+
+    
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+    
+    const getStoredColor = () => {
+      return localStorage.getItem('selectedColor') || '#AC2427';
+    };
+    
+    const storeColor = (color) => {
+      localStorage.setItem('selectedColor', color);
+    };
+    
+    const resetToDefaultColor = () => {
+      const defaultColor = '#AC2427';
+      setColor1(defaultColor);
+      setLabelColor1(determineLabelColor(defaultColor));
+      storeColor(defaultColor);
+      closeModal();
+    };
+    const [color1, setColor1] = useState(getStoredColor());
     const [labelColor1, setLabelColor1] = useState(null);
+
+    const inputColorRef1 = useRef(null);
 
     const determineLabelColor = (backgroundColor) => {
       const contrastColor =
@@ -312,7 +334,9 @@ const Signed = React.memo(() => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
     const getStoredColor = () => {
       return localStorage.getItem('selectedColor') || '#AC2427';
@@ -330,17 +354,18 @@ const Signed = React.memo(() => {
       closeModal();
     };
 
-
     const [color1, setColor1] = useState(getStoredColor());
     const [labelColor1, setLabelColor1] = useState(null);
 
     const inputColorRef1 = useRef(null);
+
 
     const createHandleDivClick = (inputColorRef, setColor, setLabelColor, currentColor) => () => {
       inputColorRef.current.click();
       setColor(currentColor);
       setLabelColor(determineLabelColor(currentColor));
       storeColor(currentColor);
+      openColorPicker(); 
     };
 
     const handleColorChange = (setColor, setColorState, setLabelColor) => (event) => {
@@ -349,6 +374,7 @@ const Signed = React.memo(() => {
       setColorState(color);
       setLabelColor(determineLabelColor(color));
       storeColor(color);
+      openColorPicker();
     };
 
     const determineLabelColor = (backgroundColor) => {
@@ -359,6 +385,14 @@ const Signed = React.memo(() => {
       return contrastColor;
     };
 
+    const openColorPicker = () => {
+      setIsColorPickerOpen(true);
+    };
+
+    const closeColorPicker = () => {
+      setIsColorPickerOpen(false);
+    };
+
     const openModal = () => {
       setIsModalOpen(true);
     };
@@ -366,6 +400,7 @@ const Signed = React.memo(() => {
     const closeModal = () => {
       setIsModalOpen(false);
     };
+
 
 
 
@@ -454,45 +489,52 @@ const Signed = React.memo(() => {
         window.removeEventListener('resize', handleResize);
       };
 
-      const [isModalOpen, setIsModalOpen] = useState(false);
-
     }, []);
 
 
 
 
     return (
-        <div>
-          <button onClick={openModal}>Open Reset Modal</button>
+      <div>
+        {isColorPickerOpen && (
+          <button onClick={openModal} className="hidden">Open Reset Modal</button>
+        )}
         {isModalOpen && (
-          <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center" onClick={closeModal}>
-            <div className="bg-white p-4 rounded-md" onClick={(e) => e.stopPropagation()}>
-              <p>Do you want to reset to default color?</p>
-              <button onClick={resetToDefaultColor}>Reset</button>
-              <button onClick={closeModal}>Cancel</button>
+          <div className="fixed top-0 w-full h-full flex items-center justify-center" onClick={closeModal}>
+            <div className="bg-white px-10 py-8 border shadow-container rounded-lg text-center" onClick={(e) => e.stopPropagation()}>
+              <div>
+                <p className="text-sm">Apakah Anda Ingin Reset</p>
+                <p className="text-sm">Warna Latar Pengumuman?</p>
+              </div>
+              <div className="flex justify-center items-center gap-3 mt-10">
+                <Button className='border-none bg-merah text-white rounded-md w-20 h-10 shadow-xs hover:bg-red-800 transition duration-200' onClick={resetToDefaultColor}>
+                  Reset
+                </Button>
+                <Button className=' bg-white text-black rounded-md w-20 h-10 shadow-md border hover:bg-gray-50 transition duration-200 mb-1' onClick={closeModal}>
+                  Batal
+                </Button>
+              </div>
             </div>
           </div>
         )}
-      <div className="gap-3 text-center p-2 fixed bottom-0 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '8vh' : 'auto' }}>
-        <FaVolumeUp />
-        <input
-          ref={inputColorRef1}
-          type="color"
-          value={color1}
-          name='bg_1'
-          id='bg_1'
-          onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
-          className='bg-none cursor-pointer absolute w-full h-full opacity-0'
-        />
-        {data.length > 0 && (
-          <p className="text-md font-bold">
-            {data[currentAnnouncementIndex].pengumuman}
-          </p>
-        )}
-  
-        {/* Modal */}
-      </div>
+        <div onClick={openModal} className="gap-3 text-center p-2 fixed bottom-0 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '8vh' : 'auto' }}>
+          <FaVolumeUp />
+          <input
+            ref={inputColorRef1}
+            type="color"
+            value={color1}
+            name='bg_1'
+            id='bg_1'
+            onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
+            className='bg-none cursor-pointer absolute w-full h-full opacity-0'
+          />
+          {data.length > 0 && (
+            <p className="text-md font-bold">
+              {data[currentAnnouncementIndex].pengumuman}
+            </p>
+          )}
         </div>
+      </div>
     );
   };
 
