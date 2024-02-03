@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react"
-import axios from "axios"
-import Head from "next/head"
-import Layout from "@/components/Layout"
-import { MdEdit, MdDelete } from "react-icons/md"
-import { useRouter } from "next/router"
-import { Pagination } from "@nextui-org/react"
-import { FaPlus } from "react-icons/fa"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Head from "next/head";
+import Layout from "@/components/Layout";
+import { MdEdit, MdDelete } from "react-icons/md";
+import { useRouter } from "next/router";
+import { Pagination } from "@nextui-org/react";
+import { FaPlus } from "react-icons/fa";
 
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const PAGE_SIZE = 7
+const PAGE_SIZE = 7;
 
 const Waktu = () => {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  const router = useRouter()
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -65,8 +65,8 @@ const Waktu = () => {
   const currentData = data.slice(startIndex, endIndex);
 
   const handleCreateClick = () => {
-    router.push("/waktu/create")
-  }
+    router.push("/waktu/create");
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -78,9 +78,9 @@ const Waktu = () => {
             "Content-Type": "application/json",
           },
         }
-      )
+      );
 
-      setData((prevData) => prevData.filter((item) => item.id !== id))
+      setData((prevData) => prevData.filter((item) => item.id !== id));
       toast.success("Data Waktu Berhasil Dihapus", {
         position: "top-right",
         autoClose: 5000,
@@ -90,22 +90,24 @@ const Waktu = () => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-      })
-      
+      });
     } catch (error) {
-      console.error("Error deleting resource:", error)
-      toast.error("Error deleting resource")
+      console.error("Error deleting resource:", error);
+      toast.error("Error deleting resource");
     }
-  }
+  };
 
+  //   const handleEditClick = (itemId) => {
+  //     router.push(`/akademik/edit/${itemId}`)
+  //   }
 
   const handleEditClick = (itemId) => {
-    router.push(`/waktu/edit/${itemId}`)
-  }
+    router.push(`/waktu/edit/${itemId}`);
+  };
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage)
-  }
+    setCurrentPage(newPage);
+  };
 
   return (
     <Layout>
@@ -149,7 +151,7 @@ const Waktu = () => {
               <tbody className="bg-white border">
                 {currentData.map((item, index) => {
                   const displayNumber =
-                    (currentPage - 1) * PAGE_SIZE + index + 1
+                    (currentPage - 1) * PAGE_SIZE + index + 1;
                   return (
                     <tr
                       key={item.id}
@@ -173,7 +175,7 @@ const Waktu = () => {
                         />
                       </td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
@@ -191,7 +193,7 @@ const Waktu = () => {
       </div>
       <ToastContainer className="mt-12" />
     </Layout>
-  )
-}
+  );
+};
 
-export default Waktu
+export default Waktu;

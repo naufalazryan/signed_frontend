@@ -6,7 +6,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Button } from "@nextui-org/react";
 
-const EditWaktu = () => {
+const EditWaktuPage = () => {
   const [jam, setJam] = useState("");
   const [waktu, setWaktu] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -173,4 +173,4 @@ const EditWaktu = () => {
   );
 };
 
-export default EditWaktu;
+export default EditWaktuPage;

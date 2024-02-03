@@ -312,9 +312,44 @@ const Signed = React.memo(() => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    const [color1, setColor1] = useState('#AC2427');
-    const inputColorRef1 = useRef(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const getStoredColor = () => {
+      return localStorage.getItem('selectedColor') || '#AC2427';
+    };
+
+    const storeColor = (color) => {
+      localStorage.setItem('selectedColor', color);
+    };
+
+    const resetToDefaultColor = () => {
+      const defaultColor = '#AC2427';
+      setColor1(defaultColor);
+      setLabelColor1(determineLabelColor(defaultColor));
+      storeColor(defaultColor);
+      closeModal();
+    };
+
+
+    const [color1, setColor1] = useState(getStoredColor());
     const [labelColor1, setLabelColor1] = useState(null);
+
+    const inputColorRef1 = useRef(null);
+
+    const createHandleDivClick = (inputColorRef, setColor, setLabelColor, currentColor) => () => {
+      inputColorRef.current.click();
+      setColor(currentColor);
+      setLabelColor(determineLabelColor(currentColor));
+      storeColor(currentColor);
+    };
+
+    const handleColorChange = (setColor, setColorState, setLabelColor) => (event) => {
+      const color = event.target.value;
+      setColor(color);
+      setColorState(color);
+      setLabelColor(determineLabelColor(color));
+      storeColor(color);
+    };
 
     const determineLabelColor = (backgroundColor) => {
       const contrastColor =
@@ -324,18 +359,14 @@ const Signed = React.memo(() => {
       return contrastColor;
     };
 
-    const handleColorChange = (setColor, setColorState, setLabelColor) => (event) => {
-      const color = event.target.value;
-      setColor(color);
-      setColorState(color);
-      setLabelColor(determineLabelColor(color));
+    const openModal = () => {
+      setIsModalOpen(true);
     };
 
-    const createHandleDivClick = (inputColorRef, setColor, setLabelColor, currentColor) => () => {
-      inputColorRef.current.click();
-      setColor(currentColor);
-      setLabelColor(determineLabelColor(currentColor));
+    const closeModal = () => {
+      setIsModalOpen(false);
     };
+
 
 
     const fetchData = useCallback(async () => {
@@ -422,12 +453,27 @@ const Signed = React.memo(() => {
       return () => {
         window.removeEventListener('resize', handleResize);
       };
+
+      const [isModalOpen, setIsModalOpen] = useState(false);
+
     }, []);
 
-    return (
 
-      <div className="gap-3 text-center p-2 fixed bottom-0 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '8vh' : 'auto' }}
-        onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>
+
+
+    return (
+        <div>
+          <button onClick={openModal}>Open Reset Modal</button>
+        {isModalOpen && (
+          <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center" onClick={closeModal}>
+            <div className="bg-white p-4 rounded-md" onClick={(e) => e.stopPropagation()}>
+              <p>Do you want to reset to default color?</p>
+              <button onClick={resetToDefaultColor}>Reset</button>
+              <button onClick={closeModal}>Cancel</button>
+            </div>
+          </div>
+        )}
+      <div className="gap-3 text-center p-2 fixed bottom-0 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '8vh' : 'auto' }}>
         <FaVolumeUp />
         <input
           ref={inputColorRef1}
@@ -443,7 +489,10 @@ const Signed = React.memo(() => {
             {data[currentAnnouncementIndex].pengumuman}
           </p>
         )}
+  
+        {/* Modal */}
       </div>
+        </div>
     );
   };
 
