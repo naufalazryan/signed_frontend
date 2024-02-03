@@ -174,7 +174,7 @@ const Signed = React.memo(() => {
                     name='bg_1'
                     id='bg_1'
                     onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
-                    className='bg-none cursor-pointer absolute w-full h-full opacity-0 mr-auto'
+                    className='bg-none cursor-pointer absolute w-full h-full opacity-0'
                   />Kelas</th>
                 <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>Jam</th>
                 <th className="py-2 px-9 sticky top-0 text-center text-white" style={{ background: color1, color: labelColor1 }} onClick={createHandleDivClick(inputColorRef1, setColor1, setLabelColor1, color1)}>A</th>
@@ -436,7 +436,7 @@ const Signed = React.memo(() => {
           name='bg_1'
           id='bg_1'
           onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
-          className='ml-8 bg-none cursor-pointer absolute w-full h-full opacity-0'
+          className='bg-none cursor-pointer absolute w-full h-full opacity-0'
         />
         {data.length > 0 && (
           <p className="text-md font-bold">
