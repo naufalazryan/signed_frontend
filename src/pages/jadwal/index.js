@@ -1,20 +1,16 @@
-import React, { useState } from 'react'
-import Head from 'next/head'
-import Layout from '@/components/Layout'
-import { MdEdit, MdDelete } from 'react-icons/md'
-import { useRouter } from 'next/router'
-import { Pagination } from '@nextui-org/react'
-import { FaPlus, FaToggleOn, FaToggleOff } from 'react-icons/fa'
+import React, { useState } from 'react';
+import Head from 'next/head';
+import Layout from '@/components/Layout';
+import { MdEdit, MdDelete } from 'react-icons/md';
+import { useRouter } from 'next/router';
+import { FaPlus } from 'react-icons/fa';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
-
-const PAGE_SIZE = 7
+const PAGE_SIZE = 7;
 
 const Jadwal = () => {
-  const router = useRouter()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [isToggleOn, setIsToggleOn] = useState(false)
-  const [toggleStatus, setToggleStatus] = useState({})
-
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const data = [
     { id: 1, kelas: 'X', namaKelas: 'A', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
@@ -26,42 +22,38 @@ const Jadwal = () => {
     { id: 7, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
     { id: 8, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
     { id: 9, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
+    { id: 10, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
+    { id: 11, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
+    { id: 12, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
+    { id: 13, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
+    { id: 14, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
+    { id: 15, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
   ]
 
-  
-  const totalPages = Math.ceil(data.length / PAGE_SIZE)
-  const startIndex = (currentPage - 1) * PAGE_SIZE
-  const endIndex = startIndex + PAGE_SIZE
-  const currentData = data.slice(startIndex, endIndex)
-  
+  const totalPages = Math.ceil(data.length / PAGE_SIZE);
+  const visiblePages = 4;
+  const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+  const endPage = Math.min(totalPages, startPage + visiblePages - 1);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const handleCreateClick = () => {
-    router.push('/jadwal/create')
-  }
+    router.push('/jadwal/create');
+  };
 
   const handleDeleteClick = () => {
-    router.push('/dashboard/delete')
-  }
-
-  // const handleEditClick = (itemId) => {
-  //   router.push(`/jadwal/edit/${itemId}`)
-  // }
+    router.push('/dashboard/delete');
+  };
 
   const handleEditClick = (itemId) => {
-    router.push(`/jadwal/edit`)
-  }
+    router.push(`/jadwal/edit`);
+  };
 
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage)
-  }
-
-  const handleToggleClick = (itemId) => {
-    setToggleStatus((prev) => ({
-      ...prev,
-      [itemId]: !prev[itemId],
-    }))
-  }
-
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  const currentData = data.slice(startIndex, endIndex);
 
   return (
     <Layout>
@@ -71,15 +63,18 @@ const Jadwal = () => {
       <div className="max-w-screen-lg w-screen">
         <div className="flex justify-between mx-10 items-center mb-5">
           <h1 className="text-center ml-1 font-semibold text-2xl">PENGATURAN JADWAL</h1>
-          <div className='flex justify-center text-center items-center'>
-            <button className='font-medium bg-sidebar shadow-container border hover:border-none hover:bg-merah text-black hover:text-white transition duration-300 ease-in-out gap-2 rounded-lg w-32 h-12 flex items-center' onClick={handleCreateClick}>
-              <FaPlus className='ml-4' />
+          <div className="flex justify-center text-center items-center">
+            <button
+              className="font-medium bg-sidebar shadow-container border hover:border-none hover:bg-merah text-black hover:text-white transition duration-300 ease-in-out gap-2 rounded-lg w-32 h-12 flex items-center"
+              onClick={handleCreateClick}
+            >
+              <FaPlus className="ml-4" />
               <span>Tambah</span>
             </button>
           </div>
         </div>
         <div className="flex items-center justify-center text-center">
-          <div className="overflow-x-auto w-full mx-10 h-full relative shadow-container sm:rounded-lg">
+          <div className="overflow-x-auto w-full mx-10 h-full relative shadow-container sm:rounded-lg sb-hidden overflow-hidden">
             <table className="w-full text-sm">
               <thead className="text-black bg-sidebar border">
                 <tr>
@@ -114,13 +109,6 @@ const Jadwal = () => {
                     <td className="py-4 px-6">{item.mataPelajaran}</td>
                     <td className="py-4 px-6">{item.jamPelajaran}</td>
                     <td className="py-4 px-6">{item.hari}</td>
-                    {/* <td className={`py-4 px-6 transition duration-200`} onClick={() => handleToggleClick(item.id)}>
-                      {toggleStatus[item.id] ? (
-                        <FaToggleOn className="transform text-green-500" />
-                      ) : (
-                        <FaToggleOff />
-                      )}
-                    </td> */}
                     <td className="py-4 px-6 hover:text-merah transition duration-200" onClick={() => handleEditClick(item.id)}>
                       <MdEdit />
                     </td>
@@ -131,21 +119,52 @@ const Jadwal = () => {
                 ))}
               </tbody>
             </table>
-            <div className="flex items-center justify-center mt-2 mb-2">
-              <Pagination
-                loop
-                showControls
-                total={totalPages}
-                current={currentPage}
-                onChange={handlePageChange}
-              />
-            </div>
-
           </div>
         </div>
+        <nav className="flex items-center justify-center mt-10">
+          <button
+            type="button"
+            className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <MdKeyboardArrowLeft />
+            <span aria-hidden="true" className="sr-only">
+              Previous
+            </span>
+          </button>
+          {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
+            const page = startPage + index;
+            return (
+              <button
+                key={page}
+                type="button"
+                className={`min-h-[38px] min-w-[38px] ${page === currentPage
+                    ? 'text-white bg-merah hover:bg-red-800 focus:bg-red-800'
+                    : 'text-black bg-gray-50 hover:bg-gray-100 focus:bg-red-800'
+                  } border py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none disabled:opacity-50 disabled:pointer-events-none`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            );
+          })}
+          
+          <button
+            type="button"
+            className="min-h-[38px] min-w-[38px] flex justify-center items-center border hover:bg-gray-100 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <span aria-hidden="true" className="sr-only">
+              Next
+            </span>
+            <MdKeyboardArrowRight />
+          </button>
+        </nav>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default Jadwal
+export default Jadwal;

@@ -4,9 +4,9 @@ import Head from "next/head"
 import Layout from "@/components/Layout"
 import { MdEdit, MdDelete } from "react-icons/md"
 import { useRouter } from "next/router"
-import { Pagination } from "@nextui-org/react"
 import { FaPlus } from "react-icons/fa"
 import ToggleTable from "@/components/switcher/ToggleTable"
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -21,6 +21,15 @@ const Informasi = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
+
+  const totalPages = Math.ceil(data.length / PAGE_SIZE)
+  const visiblePages = 4
+  const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2))
+  const endPage = Math.min(totalPages, startPage + visiblePages - 1)
+
+  const startIndex = (currentPage - 1) * PAGE_SIZE
+  const endIndex = startIndex + PAGE_SIZE
+  const currentData = data.slice(startIndex, endIndex)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,11 +172,7 @@ const Informasi = () => {
     setCurrentPage(newPage)
   }
 
-  // Guard against empty data
-  const totalPages = Math.ceil(data.length / PAGE_SIZE)
-  const startIndex = (currentPage - 1) * PAGE_SIZE
-  const endIndex = startIndex + PAGE_SIZE
-  const currentData = data.slice(startIndex, endIndex)
+  
 
   return (
     <Layout>
@@ -233,17 +238,49 @@ const Informasi = () => {
                 })}
               </tbody>
             </table>
-            <div className="flex items-center justify-center mt-2 mb-2">
-              <Pagination
-                loop
-                showControls
-                total={totalPages}
-                current={currentPage}
-                onChange={handlePageChange}
-              />
-            </div>
           </div>
         </div>
+        <nav className="flex items-center justify-center mt-10">
+          <button
+            type="button"
+            className="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <MdKeyboardArrowLeft />
+            <span aria-hidden="true" className="sr-only">
+              Previous
+            </span>
+          </button>
+          {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
+            const page = startPage + index
+            return (
+              <button
+                key={page}
+                type="button"
+                className={`min-h-[38px] min-w-[38px] ${page === currentPage
+                  ? 'text-white bg-merah hover:bg-red-800 focus:bg-red-800'
+                  : 'text-black bg-gray-50 hover:bg-gray-100 focus:bg-red-800'
+                  } border py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none disabled:opacity-50 disabled:pointer-events-none`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            )
+          })}
+
+          <button
+            type="button"
+            className="min-h-[38px] min-w-[38px] flex justify-center items-center border hover:bg-gray-100 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <span aria-hidden="true" className="sr-only">
+              Next
+            </span>
+            <MdKeyboardArrowRight />
+          </button>
+        </nav>
       </div>
       <ToastContainer className="mt-12" />
     </Layout>

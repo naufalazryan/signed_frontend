@@ -32,6 +32,7 @@
     "react-youtube": "^10.1.0",
     "sharp": "^0.33.2",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.0.5",
     "typeface-poppins": "^1.1.13"
   },
   "devDependencies": {
