@@ -303,7 +303,7 @@ const Signed = React.memo(() => {
 
       <div className="mx-5 justify-start w-full overflow-hidden max-h-screen">
 
-        <div className={`relative overflow-y-auto border-b max-w-[993px] sb-hidden border-gray-300  `} ref={tableContainerRef}>
+        <div className={`relative overflow-y-auto border-b max-w-full sb-hidden border-gray-300  `} ref={tableContainerRef}>
           <table className="table-auto">
             {isColorPickerOpen && (
               <button onClick={openModal} className="hidden">Open Reset Modal</button>
