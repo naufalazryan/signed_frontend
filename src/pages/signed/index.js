@@ -303,7 +303,7 @@ const Signed = React.memo(() => {
 
       <div className="mx-5 justify-start w-full overflow-hidden max-h-screen">
 
-        <div className={`relative overflow-y-auto sb-hidden border-gray-300  `} ref={tableContainerRef}>
+        <div className={`relative overflow-y-auto border-b max-w-[993px] sb-hidden border-gray-300  `} ref={tableContainerRef}>
           <table className="table-auto">
             {isColorPickerOpen && (
               <button onClick={openModal} className="hidden">Open Reset Modal</button>
@@ -544,7 +544,7 @@ const Signed = React.memo(() => {
           modules={[Autoplay]}
           className="mySwiper shadow-container"
 
-          style={{ maxWidth: '160px', maxHeight: '240px' }}
+          style={{ maxWidth: '160px', maxHeight: '243px' }}
         >
           <SwiperSlide>
             <Image src={Poster} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
@@ -592,7 +592,7 @@ const Signed = React.memo(() => {
           modules={[Autoplay]}
           className="mySwiper shadow-container"
 
-          style={{ maxWidth: '160px', maxHeight: '240px' }}
+          style={{ maxWidth: '160px', maxHeight: '243px' }}
         >
           <SwiperSlide>
             <Image src={Poster} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
