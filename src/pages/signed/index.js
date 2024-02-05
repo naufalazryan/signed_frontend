@@ -21,6 +21,7 @@ import Poster2 from '../../../public/images/poster2.jpg'
 import Poster3 from '../../../public/images/poster3.jpeg'
 import ReactPlayer from "react-player"
 import moment from "moment"
+import "moment/locale/id";
 
 
 const withAuth = (WrappedComponent) => {
