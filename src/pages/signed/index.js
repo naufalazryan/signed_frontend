@@ -20,6 +20,7 @@ import Poster from '../../../public/images/poster.jpeg'
 import Poster2 from '../../../public/images/poster2.jpg'
 import Poster3 from '../../../public/images/poster3.jpeg'
 import ReactPlayer from "react-player"
+import moment from "moment"
 
 
 const withAuth = (WrappedComponent) => {
@@ -301,8 +302,8 @@ const Signed = React.memo(() => {
 
     return (
 
-      <div className="justify-start w-full overflow-hidden max-h-screen">
-        <div className={`relative overflow-y-auto border-b max-w-[994px] sb-hidden border-gray-300  `} ref={tableContainerRef}>
+      <div className="justify-start w-full md:w-full overflow-hidden max-h-screen">
+        <div className={`relative overflow-y-auto  sb-hidden border-gray-300  `} ref={tableContainerRef}>
           <table className="table-auto w-full">
             {isColorPickerOpen && (
               <button onClick={openModal} className="hidden">Open Reset Modal</button>
@@ -699,16 +700,49 @@ const Signed = React.memo(() => {
 
 
   const AkademikCard = () => {
-
-    const [isFullScreen, setIsFullScreen] = useState(false)
-
-    const dataAkademik = [
-      { nama_kegiatan: 'Ujian Blok PKK', jadwal_mulai: '7 Februari', strip: '-', jadwal_selesai: '7 Februari' },
-      { nama_kegiatan: 'Libur', jadwal_mulai: '8 Februari', strip: '-', jadwal_selesai: '10 Februari' },
-      { nama_kegiatan: 'Presentasi Project Gabungan', jadwal_mulai: '12 Januari', strip: '-', jadwal_selesai: '12 Januari' },
-    ];
-
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [dataAkademik, setDataAkademik] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const tableRef = useRef(null);
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const router = useRouter();
+
+    const fetchData = useCallback(async () => {
+      setIsLoading(true);
+      try {
+        if (token) {
+          const response = await axios.get(
+            "https://api.e1.ikma.my.id/api/admin/akademik/get/on",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (response.data && response.data.data) {
+            const { data } = response.data;
+            setDataAkademik(data);
+          } else {
+            console.error("Invalid data format in the response:", response);
+          }
+        } else {
+          console.warn(
+            "Token is not available. User may not be authenticated."
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error.message || error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, [token]);
+
+    useEffect(() => {
+      fetchData();
+    }, [fetchData]);
 
     useEffect(() => {
       if (tableRef.current) {
@@ -733,82 +767,84 @@ const Signed = React.memo(() => {
       }
     }, []);
 
-    // useEffect(() => {
-    //   if (tableRef.current) {
-    //     const $container = tableRef.current;
-    //     let up = false;
-
-    //     const interval = setInterval(() => {
-    //       const position = $container.scrollTop;
-    //       const height = $container.scrollHeight;
-
-    //       if (position === $container.lastPosition) up = !up;
-    //       $container.lastPosition = position;
-
-    //       if (up) {
-    //         $container.scrollTop = position - 100;
-    //       } else {
-    //         $container.scrollTop = position + 100;
-    //       }
-    //     }, 2000);
-
-    //     return () => clearInterval(interval);
-    //   }
-    // }, []);
-
     useEffect(() => {
       const handleResize = () => {
-        setIsFullScreen(window.innerHeight === screen.height)
-      }
+        setIsFullScreen(window.innerHeight === screen.height);
+      };
 
-      window.addEventListener('resize', handleResize)
+      window.addEventListener("resize", handleResize);
 
-      setIsFullScreen(window.innerHeight === screen.height)
+      setIsFullScreen(window.innerHeight === screen.height);
 
       return () => {
-        window.removeEventListener('resize', handleResize)
-      }
-
-    }, [])
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
 
     return (
       <div>
-        <div className="bg-white border border-gray-300 rounded-lg shadow-container md:flex-row md:max-w-xl max-h-32 p-3 sb-hidden hover:bg-gray-100 overflow-y-auto" style={{ height: isFullScreen ? '20vh' : 'auto' }} ref={tableRef}>
+        <div
+          className="bg-white border border-gray-300 rounded-lg shadow-container md:flex-row md:max-w-xl max-h-32 p-3 sb-hidden hover:bg-gray-100 overflow-y-auto"
+          style={{ height: isFullScreen ? "20vh" : "auto" }}
+          ref={tableRef}
+        >
           <div className="flex justify-center items-center p-3 leading-normal m-5">
-            <table className='grid-flow-row text-center'>
-              <tbody className="w-full">
-                {dataAkademik.map((jadwal, index) => (
-                  <React.Fragment key={index}>
-                    <tr className="text-lg font-bold">
-                      <td className={`py-1 mb-5 ${jadwal.jadwal_mulai && !jadwal.jadwal_selesai ? 'mt-2' : ''}`} colSpan="3">
-                        {jadwal.nama_kegiatan}
-                      </td>
-                    </tr>
-                    <tr>
-                      {jadwal.jadwal_mulai !== jadwal.jadwal_selesai && (
-                        <>
-                          <td className="py-5 pr-4">{jadwal.jadwal_mulai}</td>
-                          <td className="py-5 pr-4">{jadwal.strip}</td>
-                          <td className="py-5">{jadwal.jadwal_selesai}</td>
-                        </>
-                      )}
-                      {jadwal.jadwal_mulai === jadwal.jadwal_selesai && (
-                        <td className={`py-5 ${jadwal.jadwal_selesai ? '' : ''}`} colSpan="3">
-                          {jadwal.jadwal_mulai}
-                        </td>
-                      )}
-                    </tr>
-                    {index < dataAkademik.length - 1 && (
-                      <tr>
-                        <td colSpan="3">
-                          <hr className="border-t border-gray-300" />
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <table className="grid-flow-row text-center">
+                <tbody className="w-full">
+                  {dataAkademik.map((akademik, index) => (
+                    <React.Fragment key={index}>
+                      <tr className="text-lg font-bold">
+                        <td
+                          className={`py-1 mb-5 ${
+                            akademik.tanggal_mulai && !akademik.tanggal_selesai
+                              ? "mt-2"
+                              : ""
+                          }`}
+                          colSpan="3"
+                        >
+                          {akademik.kegiatan}
                         </td>
                       </tr>
-                    )}
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
+                      <tr>
+                        <td
+                          style={{
+                            display: akademik.tanggal_mulai
+                              ? "table-cell"
+                              : "none",
+                            textAlign: "center",
+                          }}
+                          className={`py-5`}
+                          colSpan={akademik.tanggal_selesai ? "3" : "1"}
+                        >
+                          {akademik.tanggal_mulai &&
+                          moment(akademik.tanggal_selesai).isValid() ? (
+                            <>
+                              {moment(akademik.tanggal_mulai).format("DD MMMM")}{" "}
+                              -{" "}
+                              {moment(akademik.tanggal_selesai).format(
+                                "DD MMMM"
+                              )}
+                            </>
+                          ) : (
+                            moment(akademik.tanggal_mulai).format("DD MMMM")
+                          )}
+                        </td>
+                      </tr>
+                      {index < dataAkademik.length - 1 && (
+                        <tr>
+                          <td colSpan="3">
+                            <hr className="border-t border-gray-300" />
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </div>
