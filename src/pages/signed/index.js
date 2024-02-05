@@ -105,7 +105,7 @@ const Signed = React.memo(() => {
     };
 
     const storeColor = (color) => {
-      localStorage.setItem('selectedColorTable', color); // Corrected storage key
+      localStorage.setItem('selectedColorTable', color)
     };
 
     const resetToDefaultColor = () => {
@@ -302,7 +302,6 @@ const Signed = React.memo(() => {
     return (
 
       <div className="mx-5 justify-start w-full overflow-hidden max-h-screen">
-
         <div className={`relative overflow-y-auto border-b max-w-[994px] sb-hidden border-gray-300  `} ref={tableContainerRef}>
           <table className="table-auto w-full">
             {isColorPickerOpen && (
@@ -814,9 +813,6 @@ const Signed = React.memo(() => {
         </div>
       </div>
     );
-
-
-
   };
 
   const HeaderInformasi = () => {
@@ -1080,9 +1076,6 @@ const Signed = React.memo(() => {
 
     }, [])
 
-
-
-
     return (
       <div>
         {isColorPickerOpen && (
@@ -1106,7 +1099,7 @@ const Signed = React.memo(() => {
             </div>
           </div>
         )}
-        <div onClick={openModal} className="gap-3 text-center p-2 fixed bottom-0 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '8vh' : 'auto' }}>
+        <div onClick={openModal} className="gap-3 text-center p-2 fixed bottom-0 z-10 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '10vh' : 'auto' }}>
           <FaVolumeUp />
           <input
             ref={inputColorRef1}
@@ -1126,21 +1119,18 @@ const Signed = React.memo(() => {
     )
   }
 
-
-
-
   return (
     <div>
       <Head>
         <title>Signed SMK Telkom Banjarbaru</title>
       </Head>
-      <div className='w-screen h-screen overflow-hidden flex flex-col'>
+      <div className='w-screen h-screen overflow-hidden flex-2 flex-col'>
         <Navbar />
-        <div className="flex-1 flex">
+        <div className="flex-1 flex justify-center">
           <div className="flex-3">
             <Table />
           </div>
-          <div className="flex flex-col">
+          <div className="mr-2 flex flex-col">
             <div className="mb-2">
               <HeaderInformasi />
             </div>
@@ -1150,7 +1140,7 @@ const Signed = React.memo(() => {
             <div className="mb-2">
               <AkademikCard />
             </div>
-            <div className="flex justify-center items-center top-0">
+            <div className="flex justify-center items-center top-0 gap-3">
               <SignedCard />
               <SignedCard2 />
             </div>
