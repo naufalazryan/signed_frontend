@@ -175,7 +175,7 @@ const Signed = React.memo(() => {
         } else {
           $container.scrollTop = position + 1;
         }
-      }, 30);
+      }, 100);
 
       return () => clearInterval(interval);
     }, [isAnimatingUp]);
@@ -303,8 +303,8 @@ const Signed = React.memo(() => {
 
       <div className="mx-5 justify-start w-full overflow-hidden max-h-screen">
 
-        <div className={`relative overflow-y-auto border-b max-w-full sb-hidden border-gray-300  `} ref={tableContainerRef}>
-          <table className="table-auto">
+        <div className={`relative overflow-y-auto border-b max-w-[994px] sb-hidden border-gray-300  `} ref={tableContainerRef}>
+          <table className="table-auto w-full">
             {isColorPickerOpen && (
               <button onClick={openModal} className="hidden">Open Reset Modal</button>
             )}
@@ -877,7 +877,7 @@ const Signed = React.memo(() => {
     return (
       <table className="w-full h-full rounded">
         {isModalOpen && (
-          <div className="fixed left-[650px] top-44 w-full h-full flex items-start justify-start z-3 bg-opacity-50" onClick={closeModal}>
+          <div className="fixed left-[650px] top-44 flex items-start justify-start z-3 bg-opacity-50" onClick={closeModal}>
             <div className="bg-white px-10 py-8 border shadow-container rounded-lg text-center" onClick={(e) => e.stopPropagation()}>
               <div>
                 <p className="text-sm">Apakah Anda Ingin Reset</p>
@@ -1134,15 +1134,13 @@ const Signed = React.memo(() => {
       <Head>
         <title>Signed SMK Telkom Banjarbaru</title>
       </Head>
-      <div className='w-screen h-screen overflow-hidden'>
-        <div className="place-content-center">
-          <Navbar />
-        </div>
-        <div className="grid grid-cols-4 grid-rows-4">
-          <div className="col-span-3">
+      <div className='w-screen h-screen overflow-hidden flex flex-col'>
+        <Navbar />
+        <div className="flex-1 flex">
+          <div className="flex-3">
             <Table />
           </div>
-          <div className="mr-2">
+          <div className="flex flex-col">
             <div className="mb-2">
               <HeaderInformasi />
             </div>
@@ -1161,7 +1159,7 @@ const Signed = React.memo(() => {
         <Announce />
       </div>
     </div>
-  )
+  );
 
 })
 
