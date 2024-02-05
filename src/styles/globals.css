@@ -28,3 +28,24 @@ display: none;
   display: block;
   width: 100%;
 }
+
+@keyframes marqueeAnimation {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-container {
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-text {
+  display: inline-block;
+  padding-right: 10px;
+  animation: marqueeAnimation 10s linear infinite;
+}
