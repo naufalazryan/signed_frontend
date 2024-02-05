@@ -10,6 +10,7 @@ import { FaBook } from "react-icons/fa"
 import { IoImageSharp } from "react-icons/io5"
 import { MdOutlineOndemandVideo } from "react-icons/md"
 import { IoMdColorPalette } from "react-icons/io"
+import { FaSchool } from "react-icons/fa"
 import { IoInformation } from "react-icons/io5"
 import { HiAcademicCap } from "react-icons/hi2"
 import { useRouter } from 'next/router'
@@ -17,13 +18,13 @@ import { useRouter } from 'next/router'
 const Sidebar = () => {
   const menus = [
     { name: 'Halaman Utama', link: '/', icon: FaHome },
+    { name: 'Signage Sekolah', link: '/signed', icon: FaSchool},
     { name: 'Pengaturan Jadwal', link: '/jadwal', icon: FaRegCalendarAlt },
     { name: 'Pengaturan Waktu', link: '/waktu', icon: IoMdTime },
     { name: 'Pengaturan Mapel', link: '/mapel', icon: FaBook },
     { name: 'Pengaturan Akademik', link: '/akademik', icon: HiAcademicCap },
     { name: 'Pengaturan Gambar', link: '/gambar', icon: IoImageSharp },
     { name: 'Pengaturan Video', link: '/video', icon: MdOutlineOndemandVideo },
-    // { name: 'Pengaturan Warna', link: '/warna', icon: IoMdColorPalette },
     { name: 'Pengaturan Informasi', link: '/informasi', icon: IoInformation },
   ]
   const [open, setOpen] = useState(true)
