@@ -301,7 +301,7 @@ const Signed = React.memo(() => {
 
     return (
 
-      <div className="mx-5 justify-start w-full overflow-hidden max-h-screen">
+      <div className="justify-start w-full overflow-hidden max-h-screen">
         <div className={`relative overflow-y-auto border-b max-w-[994px] sb-hidden border-gray-300  `} ref={tableContainerRef}>
           <table className="table-auto w-full">
             {isColorPickerOpen && (
@@ -1124,9 +1124,9 @@ const Signed = React.memo(() => {
       <Head>
         <title>Signed SMK Telkom Banjarbaru</title>
       </Head>
-      <div className='w-screen h-screen overflow-hidden flex-2 flex-col'>
+      <div className='w-screen h-screen overflow-hidden flex-2 flex-col sb-hidden'>
         <Navbar />
-        <div className="flex-1 flex justify-center">
+        <div className="flex-1 flex justify-center gap-3">
           <div className="flex-3">
             <Table />
           </div>
