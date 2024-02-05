@@ -13,21 +13,28 @@ const Jadwal = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const data = [
-    { id: 1, kelas: 'X', namaKelas: 'A', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 2, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 3, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 4, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 5, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 6, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 7, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 8, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 9, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 10, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 11, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 12, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 13, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 14, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
-    { id: 15, kelas: 'X', namaKelas: 'B', mataPelajaran: 'PKK', jamPelajaran: 10, hari: 'Senin' },
+    { id: 1, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 2, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 3, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 4, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 5, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+  
+    { id: 6, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 7, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 8, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 9, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+    { id: 10, kelas: 'X', namaKelas: 'A', mataPelajaranA: 'Networking', mataPelajaranB: 'Robotic', mataPelajaranC: 'IOT' 
+    , mataPelajaranD: 'PWdPB', mataPelajaranE: 'PKK', mataPelajaranF: 'DMI', mataPelajaranG: 'DGP',  hari: 'Senin' },
+   
   ]
 
   const totalPages = Math.ceil(data.length / PAGE_SIZE);
@@ -75,23 +82,38 @@ const Jadwal = () => {
         </div>
         <div className="flex items-center justify-center text-center">
           <div className="overflow-x-auto w-full mx-10 h-full relative shadow-container sm:rounded-lg sb-hidden overflow-hidden">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs">
               <thead className="text-black bg-sidebar border">
                 <tr>
                   <th scope="col" className="py-3 px-6">
                     ID
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    Angkatan
+                    Kelas
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    Nama Kelas
+                    Jam
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    Mata Pelajaran
+                    A
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    Jam Pelajaran
+                    B
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    C
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    D
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    E
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    F
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    G
                   </th>
                   <th scope="col" className="py-3 px-6">
                     Hari
@@ -106,8 +128,13 @@ const Jadwal = () => {
                     <td className="py-4 px-6">{item.id}</td>
                     <td className="py-4 px-6">{item.kelas}</td>
                     <td className="py-4 px-6">{item.namaKelas}</td>
-                    <td className="py-4 px-6">{item.mataPelajaran}</td>
-                    <td className="py-4 px-6">{item.jamPelajaran}</td>
+                    <td className="py-4 px-6">{item.mataPelajaranA}</td>
+                    <td className="py-4 px-6">{item.mataPelajaranB}</td>
+                    <td className="py-4 px-6">{item.mataPelajaranC}</td>
+                    <td className="py-4 px-6">{item.mataPelajaranD}</td>
+                    <td className="py-4 px-6">{item.mataPelajaranE}</td>
+                    <td className="py-4 px-6">{item.mataPelajaranF}</td>
+                    <td className="py-4 px-6">{item.mataPelajaranG}</td>
                     <td className="py-4 px-6">{item.hari}</td>
                     <td className="py-4 px-6 hover:text-merah transition duration-200" onClick={() => handleEditClick(item.id)}>
                       <MdEdit />
