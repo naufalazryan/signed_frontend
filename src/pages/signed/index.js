@@ -177,7 +177,7 @@ const Signed = React.memo(() => {
         } else {
           $container.scrollTop = position + 1;
         }
-      }, 100);
+      }, 30);
 
       return () => clearInterval(interval);
     }, [isAnimatingUp]);
@@ -286,7 +286,7 @@ const Signed = React.memo(() => {
         } else {
           $container.scrollTop = position + 1
         }
-      }, 30)
+      }, 20)
 
       return () => clearInterval(interval)
     }, [isAnimatingUp])
@@ -303,15 +303,15 @@ const Signed = React.memo(() => {
 
     return (
 
-      <div className="justify-start w-full md:w-full overflow-hidden max-h-screen">
-        <div className={`relative overflow-y-auto  sb-hidden border-gray-300  `} ref={tableContainerRef}>
+      <div className="justify-start w-full md:w-full overflow-hidden max-h-screen max-w-screen">
+        <div className={`relative overflow-y-auto sb-hidden border-gray-300 `} ref={tableContainerRef}>
           <table className="table-auto w-full">
             {isColorPickerOpen && (
               <button onClick={openModal} className="hidden">Open Reset Modal</button>
             )}
             {isModalOpen && (
               <div className="fixed top-0  w-full h-full flex items-center justify-center" onClick={closeModal}>
-                <div className="bg-white px-10 py-8  border shadow-container text-center" onClick={(e) => e.stopPropagation()}>
+                <div className="bg-white  border shadow-container text-center" onClick={(e) => e.stopPropagation()}>
                   <div>
                     <p className="text-sm">Apakah Anda Ingin Reset</p>
                     <p className="text-sm">Warna Latar Kelas Tabel?</p>
@@ -660,45 +660,140 @@ const Signed = React.memo(() => {
   }
 
   const VideoPreview = () => {
-    const videoUrl = 'https://www.youtube.com/watch?v=mv-wMfBGf6Y';
-    const playerRef = useRef(null);
-
-    useEffect(() => {
-      const playVideo = () => {
-        const internalPlayer = playerRef.current?.getInternalPlayer();
+    const [videoUrls, setVideoUrls] = useState([]);
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);const Navbar = () => {
+      const [currentDateTime, setCurrentDateTime] = useState(new Date())
   
-        if (internalPlayer && internalPlayer.play) {
-          internalPlayer.play();
+      const formatDateTime = (date) => {
+        const dateOptions = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
         }
   
-        document.removeEventListener('click', playVideo);
+        const timeOptions = {
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric"
+        }
+  
+        const dateString = date.toLocaleString("id-ID", dateOptions)
+        const timeString = date.toLocaleString("id-ID", timeOptions)
+  
+        return {
+          date: dateString,
+          time: timeString,
+        }
+      }
+  
+      useEffect(() => {
+        const intervalId = setInterval(() => {
+          setCurrentDateTime(new Date())
+        }, 1000)
+  
+        return () => {
+          clearInterval(intervalId)
+        }
+      }, [])
+  
+      const formattedDateTime = formatDateTime(currentDateTime)
+  
+      return (
+        <nav className="grid grid-cols-5 place-items-center justify-between h-20">
+          <p className="text-black font-bold text-xl">{formattedDateTime.date}</p>
+          <div className="flex justify-center col-span-3">
+            <Image width={150} height={10} src={Logo} alt="logo" priority />
+          </div>
+          <p className="text-black font-bold text-2xl">{formattedDateTime.time}</p>
+        </nav>
+      );
+    }
+    const [isLoading, setIsLoading] = useState(true);
+    const playerRef = useRef(null);
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+    useEffect(() => {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          if (token) {
+            const response = await axios.get(
+              "https://api.e1.ikma.my.id/api/admin/video/get/all",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (response.data && Array.isArray(response.data.data)) {
+              const { data } = response.data;
+              setVideoUrls(data);
+              console.log("Video URLs received from the API:", data);
+            } else {
+              console.error(
+                "Invalid data format in the response:",
+                response.data
+              );
+            }
+          } else {
+            console.warn(
+              "Token is not available. User may not be authenticated."
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error.message || error);
+        } finally {
+          setIsLoading(false);
+        }
       };
-  
-      document.addEventListener('click', playVideo);
-  
-      return () => {
-        document.removeEventListener('click', playVideo);
-      };
-    }, []);
-  
+
+      fetchData();
+    }, [token]);
+
+    const handleVideoEnd = () => {
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoUrls.length);
+    };
 
     return (
       <div className="w-full h-full bg-white border border-gray-200 rounded-sm shadow-container">
-        <div style={{ position: 'relative', paddingBottom: '53%', height: 0, overflow: 'hidden', borderRadius: '1px' }}>
-          <ReactPlayer
-            ref={playerRef}
-            url={videoUrl}
-            width="100%"
-            height="100%"
-            style={{ position: 'absolute', top: 0, left: 0, borderRadius: '1px' }}
-            controls={true}
-            playing={true}
-          />
-        </div>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : videoUrls && videoUrls.length > 0 ? (
+          <div
+            style={{
+              position: "relative",
+              paddingBottom: "53%",
+              height: 0,
+              overflow: "hidden",
+              borderRadius: "1px",
+            }}
+          >
+            <ReactPlayer
+              ref={playerRef}
+              url={videoUrls[currentVideoIndex]?.url_video}
+              width="100%"
+              height="100%"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                borderRadius: "1px",
+              }}
+              controls={true}
+              playing={true}
+              onEnded={handleVideoEnd}
+            />
+          </div>
+        ) : (
+          <p>No videos available</p>
+        )}
       </div>
     );
   };
-
 
   const AkademikCard = () => {
     const [isFullScreen, setIsFullScreen] = useState(false);
@@ -762,7 +857,7 @@ const Signed = React.memo(() => {
           } else {
             $container.scrollTop = position + 1;
           }
-        }, 30);
+        }, 20);
 
         return () => clearInterval(interval);
       }
@@ -1136,7 +1231,7 @@ const Signed = React.memo(() => {
             </div>
           </div>
         )}
-        <div onClick={openModal} className="gap-3 text-center p-2 fixed bottom-0 z-10 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '10vh' : 'auto' }}>
+        <div onClick={openModal} className="gap-3 text-center p-2 fixed bottom-0 z-10 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '8vh' : 'auto' }}>
           <FaVolumeUp />
           <input
             ref={inputColorRef1}

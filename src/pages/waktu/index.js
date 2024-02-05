@@ -95,7 +95,7 @@ const Waktu = () => {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
       })
     } catch (error) {
       console.error("Error deleting resource:", error)

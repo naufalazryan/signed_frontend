@@ -56,7 +56,7 @@ function Login() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: "light",
           transition: "bounce",
         });
 
@@ -73,7 +73,7 @@ function Login() {
           pauseOnHover: false,
           draggable: false,
           progress: undefined,
-          theme: "dark",
+          theme: "light",
           transition: "bounce",
         });
       }
@@ -88,7 +88,7 @@ function Login() {
         pauseOnHover: false,
         draggable: false,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: "bounce",
       });
     } finally {
