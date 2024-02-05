@@ -880,7 +880,7 @@ const Signed = React.memo(() => {
     return (
       <div>
         <div
-          className="bg-white border border-gray-300 rounded-lg shadow-container md:flex-row md:max-w-xl max-h-32 p-3 sb-hidden hover:bg-gray-100 overflow-y-auto"
+          className="bg-white border border-gray-300 rounded-lg shadow-sm md:flex-row md:max-w-xl max-h-32 p-3 sb-hidden hover:bg-gray-100 overflow-y-auto"
           style={{ height: isFullScreen ? "20vh" : "auto" }}
           ref={tableRef}
         >
