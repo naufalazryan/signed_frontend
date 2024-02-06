@@ -29,12 +29,23 @@ display: none;
   width: 100%;
 }
 
-@keyframes marqueeAnimation {
+@keyframes fadeAnimation {
   0% {
-    transform: translateX(100%);
+    opacity: 0;
   }
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  
   100% {
-    transform: translateX(-100%);
+    opacity: 0;
   }
 }
 
@@ -47,5 +58,6 @@ display: none;
 .marquee-text {
   display: inline-block;
   padding-right: 10px;
-  animation: marqueeAnimation 10s linear infinite;
+  animation: fadeAnimation 5s linear infinite;
 }
+

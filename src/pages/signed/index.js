@@ -45,7 +45,10 @@ const withAuth = (WrappedComponent) => {
 }
 
 const Signed = React.memo(() => {
+
+
   const Table = () => {
+
     const [data, setData] = useState([]);
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -55,10 +58,10 @@ const Signed = React.memo(() => {
 
     useEffect(() => {
       const fetchData = async () => {
-        console.log("Fetching data..."); 
+        console.log("Fetching data...");
         try {
           if (token) {
-           
+
             const currentDay = new Date().toLocaleString("id-ID", {
               timeZone: "Asia/Makassar",
               weekday: "long",
@@ -74,12 +77,11 @@ const Signed = React.memo(() => {
               }
             );
 
-            console.log("Response data:", response.data); 
+            console.log("Response data:", response.data);
 
             if (response.data && response.data.data) {
               const { data } = response.data;
 
-              
               console.log("Fetched data - kelas:", data.kelas);
               console.log("Fetched data - jadwal:", data.jadwal);
 
@@ -99,6 +101,7 @@ const Signed = React.memo(() => {
 
       fetchData();
     }, [token]);
+
 
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isAnimatingUp, setIsAnimatingUp] = useState(false);
@@ -184,7 +187,7 @@ const Signed = React.memo(() => {
         } else {
           $container.scrollTop = position + 1;
         }
-      }, 100);
+      }, 20);
 
       return () => clearInterval(interval);
     }, [isAnimatingUp]);
@@ -293,7 +296,7 @@ const Signed = React.memo(() => {
         } else {
           $container.scrollTop = position + 1;
         }
-      }, 30);
+      }, 25);
 
       return () => clearInterval(interval);
     }, [isAnimatingUp]);
@@ -307,6 +310,20 @@ const Signed = React.memo(() => {
         $container.style.height = "600px";
       }
     }, [isFullScreen]);
+
+    const [prevKelas, setPrevKelas] = useState(null);
+
+    const groupedData = data.reduce((acc, kelasData) => {
+      const kelas = kelasData.kelas;
+
+      if (!acc[kelas]) {
+        acc[kelas] = [kelasData];
+      } else {
+        acc[kelas].push(kelasData);
+      }
+
+      return acc;
+    }, {});
 
     return (
       <div className="justify-center w-full md:w-full overflow-hidden max-h-screen">
@@ -525,59 +542,61 @@ const Signed = React.memo(() => {
                 </th>
               </tr>
             </thead>
+
             <tbody>
-              {data.map((kelasData, kelasIndex) => (
-                <tr
-                  key={kelasIndex}
-                  className={`border-black ${kelasData.kelas}`}
-                >
-                  <td
-                    rowSpan={1}
-                    className={`py-2 px-8 text-center border-gray-300 border z-1 bg-gray-90 text-black`}
-                  >
-                    {kelasData.kelas}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jam}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jadwal_a}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jadwal_b}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jadwal_c}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jadwal_d}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jadwal_e}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jadwal_f}
-                  </td>
-                  <td
-                    className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
-                  >
-                    {kelasData.jadwal_g}
-                  </td>
-                </tr>
+              {Object.entries(groupedData).map(([kelas, rows], kelasIndex) => (
+                rows.map((kelasData, rowIndex) => (
+                  <tr key={`${kelas}_${rowIndex}`} className={`border-black ${kelas}`}>
+                    {rowIndex === 0 && (
+                      <td
+                        rowSpan={rows.length}
+                        className={`py-2 px-8 text-center border-gray-300 border z-1 bg-gray-90 text-black`}
+                      >
+                        {kelas}
+                      </td>
+                    )}
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jam}
+                    </td>
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jadwal_a}
+                    </td>
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jadwal_b}
+                    </td>
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jadwal_c}
+                    </td>
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jadwal_d}
+                    </td>
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jadwal_e}
+                    </td>
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jadwal_f}
+                    </td>
+                    <td
+                      className={`py-2 px-8 text-center border-gray-300 border bg-gray-90 z-1`}
+                    >
+                      {kelasData.jadwal_g}
+                    </td>
+                  </tr>
+                ))
               ))}
             </tbody>
           </table>
@@ -853,7 +872,7 @@ const Signed = React.memo(() => {
     };
 
     return (
-      <div className="w-full h-full bg-white border border-gray-200 rounded-sm shadow-container">
+      <div className="w-full h-full bg-white border rounded-2xl border-gray-200 shadow-container">
         {isLoading ? (
           <p>Loading...</p>
         ) : videoUrls && videoUrls.length > 0 ? (
@@ -863,7 +882,7 @@ const Signed = React.memo(() => {
               paddingBottom: "53%",
               height: 0,
               overflow: "hidden",
-              borderRadius: "1px",
+              borderRadius: "15px",
             }}
           >
             <ReactPlayer
@@ -875,7 +894,7 @@ const Signed = React.memo(() => {
                 position: "absolute",
                 top: 0,
                 left: 0,
-                borderRadius: "1px",
+                borderRadius: "15px",
               }}
               controls={true}
               playing={true}
@@ -1113,9 +1132,9 @@ const Signed = React.memo(() => {
             </div>
           </div>
         )}
-        <thead className="relative overflow-hidden z-10 rounded-t-lg">
+        <thead className="relative overflow-hidden z-10 ">
           <tr onClick={openModal}>
-            <th className="py-2 px-9 sticky top-0 text-center text-white rounded-sm" style={{ background: color1, color: labelColor1 }}>
+            <th className="py-2 px-9 sticky top-0 text-center  text-white rounded-sm" style={{ background: color1, color: labelColor1 }}>
               <input
                 ref={inputColorRef1}
                 type="color"
@@ -1323,18 +1342,18 @@ const Signed = React.memo(() => {
           </div>
         )}
         <div onClick={openModal} className="p-2 fixed bottom-0 z-10 w-full text-white flex items-center justify-center" style={{ background: color1, color: labelColor1, height: isFullScreen ? '6vh' : 'auto' }}>
-          <div className="marquee-text w-full flex items-center justify-center flex-row">
-            <input
-              ref={inputColorRef1}
-              type="color"
-              value={color1}
-              name='bg_1'
-              id='bg_1'
-              onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
-              className='bg-none cursor-pointer absolute w-full h-full opacity-0'
-            />
-            <div className="flex justify-center items-center z-10 w-full">
-              <FaVolumeUp className="mr-2" />
+          <div className="flex justify-center items-center">
+            <FaVolumeUp className="mr-2" />
+            <div className="marquee-text w-full  flex-row">
+              <input
+                ref={inputColorRef1}
+                type="color"
+                value={color1}
+                name='bg_1'
+                id='bg_1'
+                onChange={handleColorChange(setColor1, setColor1, setLabelColor1)}
+                className='bg-none cursor-pointer absolute w-full h-full opacity-0'
+              />
               {data.length > 0 && (
                 <p className="text-md font-bold ml-2">
                   {data[currentAnnouncementIndex].pengumuman}
@@ -1343,8 +1362,6 @@ const Signed = React.memo(() => {
             </div>
           </div>
         </div>
-
-
       </div>
     )
   }
