@@ -912,6 +912,63 @@ const Signed = React.memo(() => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [dataAkademik, setDataAkademik] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+
+    const getStoredColor = () => {
+      return localStorage.getItem("selectedColorTable") || "#AC2427";
+    };
+
+    const storeColor = (color) => {
+      localStorage.setItem("selectedColorTable", color);
+    };
+
+    const resetToDefaultColor = () => {
+      const defaultColor = "#AC2427";
+      setColor1(defaultColor);
+      setLabelColor1(determineLabelColor(defaultColor));
+      storeColor(defaultColor);
+      closeModal();
+    };
+
+    const [color1, setColor1] = useState(getStoredColor());
+    const [labelColor1, setLabelColor1] = useState(null);
+    const inputColorRef1 = useRef(null);
+
+    const determineLabelColor = (backgroundColor) => {
+      const contrastColor =
+        chroma.contrast(backgroundColor, "black") >
+          chroma.contrast(backgroundColor, "white")
+          ? "black"
+          : "white";
+      return contrastColor;
+    };
+
+    const handleColorChange =
+      (setColor, setColorState, setLabelColor) => (event) => {
+        const color = event.target.value;
+        setColor(color);
+        setColorState(color);
+        setLabelColor(determineLabelColor(color));
+        storeColor(color);
+      };
+
+    const createHandleDivClick =
+      (inputColorRef, setColor, setLabelColor, currentColor) => () => {
+        inputColorRef.current.click();
+        setColor(currentColor);
+        setLabelColor(determineLabelColor(currentColor));
+      };
+
+      const openModal = () => {
+        setIsModalOpen(true);
+      };
+  
+      const closeModal = () => {
+        setIsModalOpen(false);
+      };
+
+
     const tableRef = useRef(null);
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -990,6 +1047,8 @@ const Signed = React.memo(() => {
       };
     }, []);
 
+    
+
     return (
       <div
         className="bg-white border border-gray-300 rounded-lg shadow-sm md:flex-row md:max-w-xl max-h-32 p-3 sb-hidden hover:bg-gray-100 overflow-y-auto"
@@ -1002,9 +1061,16 @@ const Signed = React.memo(() => {
           ) : (
             <table className="grid-flow-row text-center">
               <tbody className="w-full">
+              {isColorPickerOpen && (
+              <button onClick={openModal} className="hidden">
+                Open Reset Modal
+              </button>
+            )}
+            
                 {dataAkademik.map((akademik, index) => (
                   <React.Fragment key={index}>
-                    <tr className="text-lg font-bold">
+                  
+                    <tr className="text-lg font-bold" onClick={openModal}>
                       <td
                         className={`py-1 mb-5 ${akademik.tanggal_mulai && !akademik.tanggal_selesai
                           ? "mt-2"
