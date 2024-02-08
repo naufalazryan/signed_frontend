@@ -609,25 +609,67 @@ const Signed = React.memo(() => {
 
 
   const SignedCard = () => {
-
-    const [isFullScreen, setIsFullScreen] = useState(false)
-
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const router = useRouter();
 
     useEffect(() => {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          if (token) {
+            const response = await axios.get(
+              "https://api.e1.ikma.my.id/api/admin/images/get/all",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            console.log("Response from the API:", response);
+
+            if (response.data && response.data.data) {
+              const { data } = response.data;
+              console.log("Fetched data:", data);
+              setData(data);
+            } else {
+              console.error("Invalid data format in the response:", response);
+            }
+          } else {
+            console.warn(
+              "Token is not available. User may not be authenticated."
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error.message || error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
       const handleResize = () => {
-        setIsFullScreen(window.innerHeight === screen.height)
-      }
+        setIsFullScreen(window.innerHeight === screen.height);
+      };
 
-      window.addEventListener('resize', handleResize)
+      window.addEventListener("resize", handleResize);
 
-      setIsFullScreen(window.innerHeight === screen.height)
+      setIsFullScreen(window.innerHeight === screen.height);
+
+      fetchData();
 
       return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+        window.removeEventListener("resize", handleResize);
+      };
+    }, [token]);
 
-    }, [])
-
+    useEffect(() => {
+      console.log("Data:", data); 
+    }, [data]);
 
     return (
       <>
@@ -635,47 +677,92 @@ const Signed = React.memo(() => {
           spaceBetween={30}
           centeredSlides={true}
           autoplay={{
-            delay: 2500,
+            delay: 1500,
             disableOnInteraction: false,
           }}
           modules={[Autoplay]}
           className="mySwiper shadow-container"
-
-          style={{ maxWidth: '160px', maxHeight: '243px' }}
+          style={{ maxWidth: "160px", maxHeight: "263px" }}
         >
-          <SwiperSlide>
-            <Image src={Poster} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src={Poster2} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src={Poster3} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
-          </SwiperSlide>
+          {data.map((gambar) => (
+            <SwiperSlide key={gambar.id}>
+              {console.log("Data dari API Gambarnya:", gambar)}
+              <img
+                src={`https://api.e1.ikma.my.id/api/images/get/id/${gambar.id}`}
+                style={{ width: "100%", height: "100%" }}
+                width={100}
+                height={100}
+                className="rounded-lg w-full h-full"
+              />
+              <div></div>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </>
     );
   };
   const SignedCard2 = () => {
-
-    const [isFullScreen, setIsFullScreen] = useState(false)
-
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const router = useRouter();
 
     useEffect(() => {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          if (token) {
+            const response = await axios.get(
+              "https://api.e1.ikma.my.id/api/admin/images/get/all",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            console.log("Response from the API:", response);
+
+            if (response.data && response.data.data) {
+              const { data } = response.data;
+              console.log("Fetched data:", data);
+              setData(data);
+            } else {
+              console.error("Invalid data format in the response:", response);
+            }
+          } else {
+            console.warn(
+              "Token is not available. User may not be authenticated."
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error.message || error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
       const handleResize = () => {
-        setIsFullScreen(window.innerHeight === screen.height)
-      }
+        setIsFullScreen(window.innerHeight === screen.height);
+      };
 
-      window.addEventListener('resize', handleResize)
+      window.addEventListener("resize", handleResize);
 
-      setIsFullScreen(window.innerHeight === screen.height)
+      setIsFullScreen(window.innerHeight === screen.height);
+
+      fetchData(); // Call fetchData here
 
       return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+        window.removeEventListener("resize", handleResize);
+      };
+    }, [token]);
 
-    }, [])
-
+    useEffect(() => {
+      console.log("Data:", data); 
+    }, [data]);
 
     return (
       <>
@@ -688,22 +775,26 @@ const Signed = React.memo(() => {
           }}
           modules={[Autoplay]}
           className="mySwiper shadow-container"
-
-          style={{ maxWidth: '160px', maxHeight: '243px' }}
+          style={{ maxWidth: "160px", maxHeight: "263px" }}
         >
-          <SwiperSlide>
-            <Image src={Poster} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src={Poster2} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Image src={Poster3} style={{ width: '100%', height: '100%' }} className='rounded-lg' />
-          </SwiperSlide>
+          {data.map((gambar) => (
+            <SwiperSlide key={gambar.id}>
+              {console.log("Data dari API Gambarnya:", gambar)}
+              <img
+                src={`https://api.e1.ikma.my.id/api/images/get/id/${gambar.id}`}
+                style={{ width: "100%", height: "100%" }}
+                width={100}
+                height={100}
+                className="rounded-lg w-full h-full"
+              />
+              <div></div>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </>
     );
   };
+
 
 
   const Navbar = () => {

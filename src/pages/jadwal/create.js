@@ -173,6 +173,11 @@ const JamDropdown = () => {
       }
     };
 
+    const handleBack = () => {
+      console.log("Navigating back...");
+      router.push("/jadwal");
+    };
+
     handleResize();
 
     window.addEventListener("resize", handleResize);
@@ -304,7 +309,12 @@ const TambahJadwal = () => {
 
           <div className='flex justify-center gap-3 mt-14'>
             <SaveButton />
-            <CancelButton />
+            <Button
+                className=" bg-white  text-black rounded-md w-36 h-12 shadow-md border hover:bg-gray-50 transition duration-200 mb-1"
+                onClick={handleBack}
+              >
+                Batal
+              </Button>
           </div>
         </form>
       </div>

@@ -116,10 +116,10 @@ const EditWaktuPage = () => {
   return (
     <Layout>
       <Head>
-        <title>Edit Waktu</title>
+        <title>Ubah Waktu</title>
       </Head>
       <div className="max-w-screen-lg w-screen h-full">
-        <h1 className="text-2xl font-bold text-center">EDIT WAKTU</h1>
+        <h1 className="text-2xl font-bold text-center">UBAH WAKTU</h1>
         <div className="mt-8">
           <form
             className="max-w-md mx-auto items-center mt-24"

@@ -219,10 +219,10 @@ const EditJadwal = () => {
   return (
     <Layout>
       <Head>
-        <title>Edit Jadwal</title>
+        <title>Ubah Jadwal</title>
       </Head>
       <div className='max-w-screen-lg w-screen h-full flex flex-col justify-center items-center text-center'>
-        <h1 className="mb-5 text-2xl font-bold">EDIT JADWAL</h1>
+        <h1 className="mb-5 text-2xl font-bold">UBAH JADWAL</h1>
         <form className='mt-10'>
           <div className='mb-10 flex justify-start items-center'>
             <div className='flex justify-start gap-5 '>

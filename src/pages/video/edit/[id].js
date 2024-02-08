@@ -8,6 +8,7 @@ import UploadButton from "@/components/button/Upload";
 import ReactPlayer from "react-player/youtube";
 import { Button } from "@nextui-org/react";
 import { FaLink } from "react-icons/fa";
+
 const EditVideo = () => {
   const [nama_video, setNama] = useState("");
   const [url_video, setUrl] = useState("");
@@ -93,7 +94,6 @@ const EditVideo = () => {
         );
       }
 
-      // Navigate to /waktu after attempting the update
       router.push("/video");
     } catch (error) {
       console.error("Error updating data:", error.message || error);
@@ -112,13 +112,13 @@ const EditVideo = () => {
 
   const handleBack = () => {
     console.log("Navigating back...");
-    router.push("/waktu");
+    router.push("/video");
   };
 
   return (
     <Layout>
       <Head>
-        <title>Tambah Video</title>
+        <title>Ubah Video</title>
       </Head>
       <div className="max-w-screen-lg w-screen flex items-center justify-center">
         <form

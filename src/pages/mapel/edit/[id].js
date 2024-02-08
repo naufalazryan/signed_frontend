@@ -108,10 +108,10 @@ const EditMapel = () => {
   return (
     <Layout>
       <Head>
-        <title>Edit Mapel</title>
+        <title>Ubah Mapel</title>
       </Head>
       <div className="max-w-screen-lg w-screen h-full">
-        <h1 className="text-2xl font-bold text-center">EDIT MAPEL</h1>
+        <h1 className="text-2xl font-bold text-center">UBAH MAPEL</h1>
         <div className="mt-8">
           <form className="max-w-md mx-auto items-center mt-24" onSubmit={handleSubmit}>
             <div className="grid items-center gap-x-5">

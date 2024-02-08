@@ -70,6 +70,8 @@ const Jadwal = () => {
     router.push("/jadwal/create");
   };
 
+  
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(
@@ -100,8 +102,9 @@ const Jadwal = () => {
   };
 
   const handleEditClick = (itemId) => {
-    router.push(`/jadwal/edit`);
-  };
+    router.push(`/jadwal/edit/${itemId}`);
+  }
+
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const endIndex = startIndex + PAGE_SIZE;
@@ -132,41 +135,41 @@ const Jadwal = () => {
             <table className="w-full text-xs">
               <thead className="text-black bg-sidebar border">
                 <tr>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     ID
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     Kelas
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     Jam
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     A
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     B
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     C
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     D
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     E
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     F
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     G
                   </th>
-                  <th scope="col" className="py-3 px-6">
+                  <th scope="col" className="p-4">
                     Hari
                   </th>
-                  {/* <th scope="col" className="py-3 px-6"></th> */}
-                  <th scope="col" className="py-3 px-6"></th>
+                  <th scope="col" className="p-4"></th>
+                  <th scope="col" className="p-4"></th>
                 </tr>
               </thead>
               <tbody className="bg-white border">
@@ -192,12 +195,13 @@ const Jadwal = () => {
                         {item.hari.substr(0, 1).toUpperCase() +
                           item.hari.substr(1)}
                       </td>
-                      {/* <td
-                        className="py-4 px-6 hover:text-merah transition duration-200"
-                        onClick={() => handleEditClick(item.id)}
-                      >
-                        <MdEdit />
-                      </td> */}
+                      <td className="py-4 px-6 hover:text-merah transition duration-200">
+                        <MdEdit
+                          name=""
+                          value=""
+                          onClick={() => handleEditClick(item.id)}
+                        />
+                      </td>
                       <td className="py-4 px-6 hover:text-merah transition duration-200">
                         <MdDelete onClick={() => handleDelete(item.id)} />
                       </td>

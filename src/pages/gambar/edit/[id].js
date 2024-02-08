@@ -180,7 +180,7 @@ const EditGambar = () => {
   return (
     <Layout>
       <Head>
-        <title>Edit Gambar</title>
+        <title>Ubah Gambar</title>
       </Head>
       <div className="mb-96 max-w-screen-lg w-screen"></div>
       <form
