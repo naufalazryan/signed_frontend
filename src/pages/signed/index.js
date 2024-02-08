@@ -668,7 +668,7 @@ const Signed = React.memo(() => {
     }, [token]);
 
     useEffect(() => {
-      console.log("Data:", data); 
+      console.log("Data:", data);
     }, [data]);
 
     return (
@@ -687,16 +687,20 @@ const Signed = React.memo(() => {
           {data.map((gambar) => (
             <SwiperSlide key={gambar.id}>
               {console.log("Data dari API Gambarnya:", gambar)}
-              <img
-                src={`https://api.e1.ikma.my.id/api/images/get/id/${gambar.id}`}
-                style={{ width: "100%", height: "100%" }}
+              <Image
+                loader={({ src }) =>
+                  `https://api.e1.ikma.my.id/api/images/get/id/${src}`
+                }
+                src={`${gambar.id}`}
+                alt={`Image ${gambar.id}`}
                 width={100}
                 height={100}
                 className="rounded-lg w-full h-full"
               />
-              <div></div>
             </SwiperSlide>
           ))}
+
+
         </Swiper>
       </>
     );
@@ -761,7 +765,7 @@ const Signed = React.memo(() => {
     }, [token]);
 
     useEffect(() => {
-      console.log("Data:", data); 
+      console.log("Data:", data);
     }, [data]);
 
     return (
@@ -777,19 +781,22 @@ const Signed = React.memo(() => {
           className="mySwiper shadow-container"
           style={{ maxWidth: "160px", maxHeight: "263px" }}
         >
-          {data.map((gambar) => (
+           {data.map((gambar) => (
             <SwiperSlide key={gambar.id}>
               {console.log("Data dari API Gambarnya:", gambar)}
-              <img
-                src={`https://api.e1.ikma.my.id/api/images/get/id/${gambar.id}`}
-                style={{ width: "100%", height: "100%" }}
+              <Image
+                loader={({ src }) =>
+                  `https://api.e1.ikma.my.id/api/images/get/id/${src}`
+                }
+                src={`${gambar.id}`}
+                alt={`Image ${gambar.id}`}
                 width={100}
                 height={100}
                 className="rounded-lg w-full h-full"
               />
-              <div></div>
             </SwiperSlide>
           ))}
+
         </Swiper>
       </>
     );
@@ -1051,13 +1058,13 @@ const Signed = React.memo(() => {
         setLabelColor(determineLabelColor(currentColor));
       };
 
-      const openModal = () => {
-        setIsModalOpen(true);
-      };
-  
-      const closeModal = () => {
-        setIsModalOpen(false);
-      };
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
 
 
     const tableRef = useRef(null);
@@ -1138,7 +1145,7 @@ const Signed = React.memo(() => {
       };
     }, []);
 
-    
+
 
     return (
       <div
@@ -1152,15 +1159,15 @@ const Signed = React.memo(() => {
           ) : (
             <table className="grid-flow-row text-center">
               <tbody className="w-full">
-              {isColorPickerOpen && (
-              <button onClick={openModal} className="hidden">
-                Open Reset Modal
-              </button>
-            )}
-            
+                {isColorPickerOpen && (
+                  <button onClick={openModal} className="hidden">
+                    Open Reset Modal
+                  </button>
+                )}
+
                 {dataAkademik.map((akademik, index) => (
                   <React.Fragment key={index}>
-                  
+
                     <tr className="text-lg font-bold" onClick={openModal}>
                       <td
                         className={`py-1 mb-5 ${akademik.tanggal_mulai && !akademik.tanggal_selesai

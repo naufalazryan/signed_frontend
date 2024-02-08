@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';

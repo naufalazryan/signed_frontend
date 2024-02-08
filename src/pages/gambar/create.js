@@ -8,6 +8,7 @@ import Image from "next/image";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { Button } from "@nextui-org/react";
 
 const TambahGambar = () => {
   const fileInputRef = useRef(null);
@@ -63,13 +64,16 @@ const TambahGambar = () => {
 
       console.log("Image uploaded successfully!");
 
-      // If upload is successful, navigate to "/gambar"
       router.push("/gambar");
     } catch (error) {
       console.error("Error uploading image:", error);
-      // Display error message using Toastify
       toast.error("Error uploading image. Please try again.");
     }
+  };
+
+  const handleBack = () => {
+    console.log("Navigating back...");
+    router.push("/gambar");
   };
 
   return (
@@ -131,8 +135,12 @@ const TambahGambar = () => {
           </div>
           <div className="mt-8 items-start flex gap-2 justify-start mr-auto">
             <UploadButton type="submit" />{" "}
-            {/* Use type="submit" for the UploadButton */}
-            <CancelButton />
+            <Button
+                className=" bg-white  text-black rounded-md w-36 h-12 shadow-md border hover:bg-gray-50 transition duration-200 mb-1"
+                onClick={handleBack}
+              >
+                Batal
+              </Button>
           </div>
         </div>
       </form>

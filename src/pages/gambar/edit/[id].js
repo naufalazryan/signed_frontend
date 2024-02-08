@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Head from "next/head";
 import Layout from "@/components/Layout";
 import { TfiExport } from "react-icons/tfi";
@@ -7,6 +7,7 @@ import UploadButton from "@/components/button/Upload";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Button } from "@nextui-org/react";
 
 const EditGambar = () => {
   const fileInputRef = useRef(null);
@@ -21,7 +22,7 @@ const EditGambar = () => {
   const { id } = router.query;
   const allowedFileTypes = ["image/png", "image/jpeg"];
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(
         `https://api.e1.ikma.my.id/api/images/get/id/${id}`,
@@ -37,7 +38,6 @@ const EditGambar = () => {
         const blob = new Blob([response.data], { type: "image/jpeg" });
         const imageUrl = URL.createObjectURL(blob);
 
-        // Fetch additional information including the name of the image
         const additionalInfoResponse = await axios.get(
           `https://api.e1.ikma.my.id/api/admin/images/get/id/${id}`,
           {
@@ -47,8 +47,6 @@ const EditGambar = () => {
           }
         );
 
-        console.log("Additional Info Response:", additionalInfoResponse.data);
-
         if (additionalInfoResponse.status === 200) {
           const { message, data, nama_gambar } =
             additionalInfoResponse.data || {};
@@ -56,10 +54,7 @@ const EditGambar = () => {
           if (message === "Successfully get data" && data) {
             const { nama_gambar } = data;
 
-            console.log("Nama Gambar from Response:", nama_gambar);
-
             if (nama_gambar !== undefined && nama_gambar !== null) {
-              // Set namaGambar state here
               setNamaGambar(nama_gambar);
               setGambarData({ url: imageUrl, data: response.data });
             } else {
@@ -81,11 +76,11 @@ const EditGambar = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, token]);
 
   useEffect(() => {
     fetchData();
-  }, [id, token]);
+  }, [fetchData]);
 
   useEffect(() => {
     if (selectedFile) {
@@ -136,8 +131,6 @@ const EditGambar = () => {
       formData.append("status", "1");
       formData.append("_method", "put");
   
-      console.log("Data yang dikirim ke server:", formData);
-  
       const response = await axios.post(
         `https://api.e1.ikma.my.id/api/admin/images/update/${id}`,
         formData,
@@ -149,15 +142,11 @@ const EditGambar = () => {
         }
       );
   
-      console.log("Response:", response.data);
-  
       if (response.status === 200) {
-        console.log("Gambar berhasil diperbarui:", response.data);
         fetchData();
         setSelectedFile(null);
         setNamaGambar("");
   
-        // Redirect to /gambar after successful update
         router.push("/gambar");
       } else {
         console.error("Gagal memperbarui gambar:", response.status);
@@ -176,6 +165,9 @@ const EditGambar = () => {
     }
   };
   
+  const handleBack = () => {
+    router.push("/gambar");
+  };
 
   return (
     <Layout>
@@ -235,7 +227,12 @@ const EditGambar = () => {
           </div>
           <div className="mt-8 items-start flex gap-2 justify-start mr-auto">
             <UploadButton type="submit" />
-            <CancelButton />
+            <Button
+                className=" bg-white  text-black rounded-md w-36 h-12 shadow-md border hover:bg-gray-50 transition duration-200 mb-1"
+                onClick={handleBack}
+              >
+                Batal
+              </Button>
           </div>
         </div>
       </form>

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect }  from 'react'
 import Head from 'next/head'
 import Layout from '@/components/Layout'
-import CancelButton from '@/components/button/Cancel'
 import HariDropdown from '@/components/dropdown/HariDropdown'
 import SaveButton from '@/components/button/Save'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Button } from "@nextui-org/react";
@@ -211,7 +210,10 @@ const JamDropdown = () => {
   );
 }
 
-
+const handleBack = () => {
+  console.log("Navigating back...");
+  router.push("/jadwal");
+};
 
 const EditJadwal = () => {
   const [selectedAngkatan, setSelectedAngkatan] = React.useState('')
@@ -304,7 +306,12 @@ const EditJadwal = () => {
 
           <div className='flex justify-center gap-3 mt-14'>
             <SaveButton />
-            <CancelButton />
+            <Button
+              className=" bg-white  text-black rounded-md w-36 h-12 shadow-md border hover:bg-gray-50 transition duration-200 mb-1"
+              onClick={handleBack}
+            >
+              Batal
+            </Button>
           </div>
         </form>
       </div>

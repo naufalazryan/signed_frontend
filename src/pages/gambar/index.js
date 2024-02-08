@@ -110,6 +110,8 @@ const Gambar = () => {
     autoplaySpeed: 1500,
   };
 
+  
+
   return (
     <Layout>
       <Head>
