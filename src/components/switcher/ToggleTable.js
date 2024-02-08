@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-const ToggleTable = ({ id, initialValue, onToggle }) => {
+const ToggleTable = ({ id, initialValue, onToggle, isDisabled }) => {
   const [isChecked, setIsChecked] = useState(initialValue);
 
   const handleCheckboxChange = () => {
-    const newStatus = !isChecked;
-    setIsChecked(newStatus);
-    onToggle(newStatus);
+    if (!isDisabled) {
+      const newStatus = !isChecked;
+      setIsChecked(newStatus);
+      onToggle(newStatus);
+    }
   };
 
   useEffect(() => {
@@ -23,6 +25,7 @@ const ToggleTable = ({ id, initialValue, onToggle }) => {
             onChange={handleCheckboxChange}
             className='sr-only'
             id={id}
+            disabled={isDisabled}
           />
           <div
             className={`box block h-5 w-8 rounded-full ${

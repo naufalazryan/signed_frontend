@@ -30,14 +30,8 @@ const VideoCard = ({ id, videoUrl, name, onEdit }) => {
                     <button className="text-white hover:text-merah transition duration-200 p-5 rounded" onClick={handleEditClick} title='Edit Video'>
                         <MdEdit />
                     </button>
-                    <button
-                        className={`rounded-full p-5 font-com text-xs capitalize ${isButtonOn ? 'bg-white text-black hover:text-white hover:bg-merah' : 'bg-white text-black hover:text-white hover:bg-merah transition duration-200'}`}
-                        onClick={handleButtonClick} title='On Off'
-                    >
-                        {isButtonOn ? 'Off' : 'On'}
-                    </button>
                     <button className="text-white hover:text-merah transition duration-200 p-5 rounded" title='Click Me'>
-                        <FaTrash />
+                        <FaTrash onClick={() => handleDelete(item.id)} />
                     </button>
                 </div>
             </div>

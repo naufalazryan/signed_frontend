@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import { MdOutlineArrowDropDown } from "react-icons/md"
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Button, Input } from "@nextui-org/react"
-import { Poppins } from "next/font/google"
+import React, { useState, useEffect, useRef } from "react";
+import { MdOutlineArrowDropDown } from "react-icons/md";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Button } from "@nextui-org/react";
+import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
   subsets: ['latin'],
   weight: '400',
-})
+});
 
 const HariDropdown = () => {
   const items = [
@@ -14,19 +14,40 @@ const HariDropdown = () => {
     { key: "selasa", label: "Selasa" },
     { key: "rabu", label: "Rabu" },
     { key: "kamis", label: "Kamis" },
-    { key: "jumat", label: "Jumat" }
-  ]
+    { key: "jumat", label: "Jumat" },
+  ];
 
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedItemLabel, setSelectedItemLabel] = useState("Hari")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedItemLabel, setSelectedItemLabel] = useState("Hari");
+  const [visibleItems, setVisibleItems] = useState(5);
+  const dropdownRef = useRef(null);
 
   const handleItemClick = (item) => {
-    setSelectedItemLabel(item.label)
-  }
+    setSelectedItemLabel(item.label);
+  };
 
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      const dropdown = dropdownRef.current;
+      if (dropdown) {
+        const { height } = dropdown.getBoundingClientRect();
+        const itemHeight = 10;
+        const newVisibleItems = Math.floor(height / itemHeight);
+        setVisibleItems(newVisibleItems);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={poppins.className}>
@@ -38,10 +59,10 @@ const HariDropdown = () => {
           </Button>
         </DropdownTrigger>
         <div className="flex items-center">
-          <DropdownMenu variant="faded" aria-label="Dynamic Actions">
-            {filteredItems.map((item, index) => (
+          <DropdownMenu variant="faded" aria-label="Dynamic Actions" ref={dropdownRef} className="max-h-40 overflow-y-auto">
+            {filteredItems.slice(0, visibleItems).map((item, index) => (
               <DropdownItem
-                key={index} 
+                key={index}
                 color={item.key === "x" ? "" : "default"}
                 className="bg-input w-full text-xs shadow-sm items-center justify-center"
                 onClick={() => handleItemClick(item)}
@@ -52,11 +73,10 @@ const HariDropdown = () => {
               </DropdownItem>
             ))}
           </DropdownMenu>
-
         </div>
       </Dropdown>
     </div>
-  )
-}
+  );
+};
 
-export default HariDropdown
+export default HariDropdown;

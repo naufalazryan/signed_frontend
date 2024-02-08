@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -45,7 +44,6 @@ function Login() {
       console.log("login:", response);
 
       if (response.data.data.token) {
-        // Assuming any response with a token is a successful login
         localStorage.setItem("token", response.data.data.token);
         localStorage.setItem("username", response.data.data.user.username);
         localStorage.setItem("Authenticated", true);
@@ -67,7 +65,6 @@ function Login() {
           router.push("/");
         }, 2000);
       } else {
-        // Handle unexpected response
         toast.error("Login Gagal! Terjadi kesalahan. Silakan coba lagi.", {
           position: "top-right",
           autoClose: 5000,
@@ -83,7 +80,6 @@ function Login() {
     } catch (error) {
       console.error(error);
 
-      // Handle other errors (e.g., network issues)
       toast.error("Login Gagal! Terjadi kesalahan. Silakan coba lagi.", {
         position: "top-right",
         autoClose: 5000,
@@ -96,13 +92,12 @@ function Login() {
         transition: "bounce",
       });
     } finally {
-      setLoading(false);
+      // Use a setTimeout to simulate a 5-second delay for the loading indicator
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
-
-  useEffect(() => {
-    // You can remove the setTimeout as it doesn't seem to be used for anything
-  }, []);
 
   return (
     <div>
@@ -157,8 +152,9 @@ function Login() {
                   <Button
                     className="border-none bg-merah text-white rounded-md w-full h-12 shadow-xs hover:bg-red-800 transition duration-200"
                     type="submit"
+                    disabled={loading}
                   >
-                    Masuk
+                    {loading ? "Loading..." : "Masuk"}
                   </Button>
                 </div>
               </div>

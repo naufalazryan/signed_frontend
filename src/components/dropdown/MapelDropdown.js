@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import { MdOutlineArrowDropDown } from "react-icons/md"
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Button, Input } from "@nextui-org/react"
-import { Poppins } from "next/font/google"
+import React, { useState, useEffect, useRef } from "react";
+import { MdOutlineArrowDropDown } from "react-icons/md";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Button } from "@nextui-org/react";
+import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
   subsets: ['latin'],
   weight: '400',
-})
+});
 
 const MapelDropdown = () => {
   const items = [
@@ -17,18 +17,39 @@ const MapelDropdown = () => {
     { key: "pkk", label: "PKK" },
     { key: "pwdpb", label: "PWdPB" },
     { key: "pbo", label: "PBO" },
-  ]
+  ];
 
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedItemLabel, setSelectedItemLabel] = useState("Mata Pelajaran")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedItemLabel, setSelectedItemLabel] = useState("Mata Pelajaran");
+  const [visibleItems, setVisibleItems] = useState(5);
+  const dropdownRef = useRef(null);
 
   const handleItemClick = (item) => {
-    setSelectedItemLabel(item.label)
-  }
+    setSelectedItemLabel(item.label);
+  };
 
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      const dropdown = dropdownRef.current;
+      if (dropdown) {
+        const { height } = dropdown.getBoundingClientRect();
+        const itemHeight = 40;
+        const newVisibleItems = Math.floor(height / itemHeight);
+        setVisibleItems(newVisibleItems);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={poppins.className}>
@@ -40,8 +61,8 @@ const MapelDropdown = () => {
           </Button>
         </DropdownTrigger>
         <div className="flex items-center">
-          <DropdownMenu variant="faded" aria-label="Dynamic Actions">
-            {filteredItems.map((item) => (
+          <DropdownMenu variant="faded" aria-label="Dynamic Actions" ref={dropdownRef} className="max-h-40 overflow-y-auto">
+            {filteredItems.slice(0, visibleItems).map((item) => (
               <DropdownItem
                 key={item.key}
                 color={item.key === "x" ? "" : "default"}
@@ -57,7 +78,7 @@ const MapelDropdown = () => {
         </div>
       </Dropdown>
     </div>
-  )
+  );
 }
 
-export default MapelDropdown
+export default MapelDropdown;

@@ -369,7 +369,7 @@ const HariDropdown = ({ name, value, onChange }) => {
   );
 };
 
-const TambahJadwal = () => {
+const EditJadwal = () => {
   const router = useRouter();
 
   const [formValues, setFormValues] = useState({
@@ -517,10 +517,10 @@ const TambahJadwal = () => {
   return (
     <Layout>
       <Head>
-        <title>Tambah Jadwal</title>
+        <title>Edit Jadwal</title>
       </Head>
       <div className="max-w-screen-lg w-screen h-full flex flex-col justify-center items-center text-center">
-        <h1 className="mb-5 text-2xl font-bold">TAMBAH JADWAL</h1>
+        <h1 className="mb-5 text-2xl font-bold">Edit JADWAL</h1>
         <form className="mt-10" onSubmit={handleSave}>
           <div className="mb-10 flex justify-start items-center">
             <div className="flex justify-start gap-5 ">
@@ -651,4 +651,4 @@ const TambahJadwal = () => {
   );
 };
 
-export default TambahJadwal;
+export default EditJadwal;
