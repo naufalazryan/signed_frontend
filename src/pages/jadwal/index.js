@@ -195,13 +195,13 @@ const Jadwal = () => {
                         {item.hari.substr(0, 1).toUpperCase() +
                           item.hari.substr(1)}
                       </td>
-                      <td className="py-4 px-6 hover:text-merah transition duration-200">
+                      {/* <td className="py-4 px-6 hover:text-merah transition duration-200">
                         <MdEdit
                           name=""
                           value=""
                           onClick={() => handleEditClick(item.id)}
                         />
-                      </td>
+                      </td> */}
                       <td className="py-4 px-6 hover:text-merah transition duration-200">
                         <MdDelete onClick={() => handleDelete(item.id)} />
                       </td>

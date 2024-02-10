@@ -370,7 +370,7 @@ const Signed = React.memo(() => {
             <thead className="relative overflow-hidden z-10 rounded-t-sm">
               <tr onClick={openModal}>
                 <th
-                  className="py-2 px-9 sticky top-0 text-center text-white rounded-tl-sm"
+                  className=" sticky top-0 text-center text-white rounded-tl-sm"
                   style={{ background: color1, color: labelColor1 }}
                 >
                   <input
@@ -546,11 +546,17 @@ const Signed = React.memo(() => {
             <tbody>
               {Object.entries(groupedData).map(([kelas, rows], kelasIndex) => (
                 rows.map((kelasData, rowIndex) => (
-                  <tr key={`${kelas}_${rowIndex}`} className={`border-black ${kelas}`}>
+                  <tr
+                    key={`${kelas}_${rowIndex}`}
+                    className={`border-black ${kelas} ${rowIndex % 2 === 0 ? 'bg-gray-200' : 'bg-gray-100'
+                      } ${kelas === 'kelasX' ? 'bg-yellow-200' : ''
+                      }`}
+                  >
                     {rowIndex === 0 && (
                       <td
                         rowSpan={rows.length}
-                        className={`py-2 px-8 text-center border-gray-300 border z-1 bg-gray-90 text-black`}
+                        className={`py-2 px-8 text-center border-gray-300 border z-1 ${kelasIndex % 2 === 0 ? 'bg-gray-300' : 'bg-gray-90'
+                          } text-black`}
                       >
                         {kelas}
                       </td>
@@ -677,7 +683,7 @@ const Signed = React.memo(() => {
           spaceBetween={30}
           centeredSlides={true}
           autoplay={{
-            delay: 1500,
+            delay: 2000,
             disableOnInteraction: false,
           }}
           modules={[Autoplay]}
@@ -757,7 +763,7 @@ const Signed = React.memo(() => {
 
       setIsFullScreen(window.innerHeight === screen.height);
 
-      fetchData(); // Call fetchData here
+      fetchData();
 
       return () => {
         window.removeEventListener("resize", handleResize);
@@ -774,14 +780,14 @@ const Signed = React.memo(() => {
           spaceBetween={30}
           centeredSlides={true}
           autoplay={{
-            delay: 3500,
+            delay: 4500,
             disableOnInteraction: false,
           }}
           modules={[Autoplay]}
           className="mySwiper shadow-container"
           style={{ maxWidth: "160px", maxHeight: "263px" }}
         >
-           {data.map((gambar) => (
+          {data.map((gambar) => (
             <SwiperSlide key={gambar.id}>
               {console.log("Data dari API Gambarnya:", gambar)}
               <Image
@@ -1538,10 +1544,10 @@ const Signed = React.memo(() => {
       <div className='w-screen h-screen overflow-hidden flex flex-col sb-hidden'>
         <Navbar />
         <div className="flex justify-center gap-5">
-          <div className="flex-3">
+          <div className="flex-2">
             <Table />
           </div>
-          <div className="mr-2 flex flex-col">
+          <div className=" flex flex-col">
             <div className="mb-2">
               <HeaderInformasi />
             </div>
